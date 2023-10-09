@@ -12,23 +12,17 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border CornerRadius="15" Background="Transparent" BorderThickness="2px" BorderBrush="#506CFF">
+                        <Border CornerRadius="15" Background="Transparent" BorderThickness="3px" BorderBrush="#506CFF">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center">
                             </ContentPresenter>
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-            <Setter Property="Content">
-                <Setter.Value>
-                    <!-- Добавление изображения перед текстом -->
-                    <StackPanel Orientation="Horizontal">
-                        <Image Source="CourseProject__Messenger/img/galochka.png" Width="16" Height="16" />
-                        <TextBlock Text="{TemplateBinding Content}" Margin="5,0,0,0" />
-                    </StackPanel>
-                </Setter.Value>
-            </Setter>
+
         </Style>
-        </Application.Resources>
+
+      
+    </Application.Resources>
 
 </Application>

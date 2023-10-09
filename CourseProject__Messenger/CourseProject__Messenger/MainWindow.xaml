@@ -5,26 +5,62 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CourseProject__Messenger"
         mc:Ignorable="d"
-        Title="TextMe" Height="493" Width="800">
+        Title="TextMe" Height="540" Width="800">
 
     <Window.Background>
-        <LinearGradientBrush EndPoint="-0.2,0.5" StartPoint="1.2,0.5">
+        <LinearGradientBrush EndPoint="0,0.7" StartPoint="1.2,0.5">
             <GradientStop Color="#506CFF"/>
             <GradientStop Color="White" Offset="1"/>
         </LinearGradientBrush>
     </Window.Background>
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="27*"/>
+            <ColumnDefinition Width="373*"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="11*"/>
             <RowDefinition Height="466*"/>
         </Grid.RowDefinitions>
-        <TextBlock x:Name="Title" HorizontalAlignment="Left" Margin="50,81,0,0" TextWrapping="Wrap" Text="Начните общаться сейчас 
- " VerticalAlignment="Top" Height="91" Width="312" Foreground="#506CFF" FontWeight="ExtraBold" FontSize="32px" Grid.Row="1"
+        <TextBlock x:Name="Title" HorizontalAlignment="Left" Margin="43,78,0,0" TextWrapping="Wrap" Text="Начните общаться сейчас 
+ " VerticalAlignment="Top" Height="91" Width="312" Foreground="#506CFF" FontWeight="ExtraBold" FontSize="32px" Grid.Row="1" Grid.ColumnSpan="2"
     />
         <TextBlock x:Name="Title2" TextWrapping="Wrap" Text="Расширьте свой круг общения с нашим приложением" 
-    VerticalAlignment="Top" Height="64" Foreground="#323131" FontWeight="Bold" FontSize="23px" Margin="50,172,384,0" Opacity="0.8" Grid.Row="1"/>
-        <Button Style="{StaticResource RoundButtonTemplate}" Content="Создать аккаунт" Margin="50,261,580,169" Grid.Row="1"  />
-        <Button Style="{StaticResource RoundButtonTemplate}" Content="Войти в аккаунт" Margin="246,261,384,169" Grid.Row="1"  />
+    VerticalAlignment="Top" Height="64" Foreground="#323131" FontWeight="Bold" FontSize="23px" Margin="43,174,391,0" Opacity="0.8" Grid.Row="1" Grid.ColumnSpan="2"/>
+        <Button Style="{StaticResource RoundButtonTemplate}" Content="Создать аккаунт" Margin="43,277,587,179" Grid.Row="1" Grid.ColumnSpan="2" Width="170px" Height="45px"/>
+        <Button Style="{StaticResource RoundButtonTemplate}" Content="Войти в аккаунт" Margin="174,278,391,179" Grid.Row="1" Grid.Column="1" Width="170px" Height="45px" />
+        <Image  Grid.Column="1" HorizontalAlignment="Left" Height="159" Margin="454,33,0,0" Grid.Row="1" VerticalAlignment="Top" Width="248" Source="D:\courseProject\img\3.jpg" RenderTransformOrigin="0.5,0.5"   >
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-6.217"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Image.RenderTransform>
+        </Image>
+        <Image Grid.Column="1" HorizontalAlignment="Left" Height="135" Margin="464,171,0,0" Grid.Row="1" VerticalAlignment="Top" Width="254" Source="D:\courseProject\img\4.jpg" RenderTransformOrigin="0.348,0.617">
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="7.392"/>
+                    <TranslateTransform X="-1.513" Y="-4.419"/>
+                </TransformGroup>
+            </Image.RenderTransform>
+        </Image>
+        <Image Grid.Column="1" HorizontalAlignment="Left" Height="140" Margin="461,300,0,0" Grid.Row="1" VerticalAlignment="Top" Width="278" Source="D:\courseProject\img\5.jpg" RenderTransformOrigin="0.5,0.5" >
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-6.557"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Image.RenderTransform>
+        </Image>
+        <Image Height="16" Margin="0,292,730,0" Grid.Row="1" VerticalAlignment="Top" Source="D:\courseProject\CourseProject__Messenger\img\galochka.png" RenderTransformOrigin="1.219,0.826" Grid.Column="1"/>
+        <Image HorizontalAlignment="Left" Height="16" Margin="188,292,0,0" Grid.Row="1" VerticalAlignment="Top" Width="16" Source="D:\courseProject\CourseProject__Messenger\img\galochka.png" RenderTransformOrigin="1.281,1.107" Grid.Column="1"/>
     </Grid>
 
 </Window>
