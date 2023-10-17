@@ -32,7 +32,9 @@ namespace CourseProject__Messenger
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-
+            authorization newWindow = new authorization();
+            this.Close();
+            newWindow.Show();
         }
     }
 }

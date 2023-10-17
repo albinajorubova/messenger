@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CourseProject__Messenger"
         mc:Ignorable="d"
-        Title="authorization" Height="450" Width="800">
+        Title="authorization" Height="610" Width="850"
+        WindowStartupLocation="CenterScreen" WindowStyle="None">
     <Window.Background>
     <LinearGradientBrush EndPoint="0,0.7" StartPoint="1.2,0.5">
         <GradientStop Color="#506CFF"/>
@@ -13,7 +14,7 @@
     </LinearGradientBrush>
 </Window.Background>
     <Grid>
-        <Border Height="390 " VerticalAlignment="Top" CornerRadius="0 0 180 0"  Background="#dce1ff">
+        <Border Height="506" VerticalAlignment="Top" CornerRadius="0 0 180 0"  Background="#FF4150A9">
 
         </Border>
     </Grid>

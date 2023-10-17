@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CourseProject__Messenger"
         mc:Ignorable="d"
-        Title="TextMe" Height="610" Width="850">
+        Title="TextMe" Height="610" Width="850"
+    WindowStartupLocation="CenterScreen" WindowStyle="None">
     <Window.Background>
         <LinearGradientBrush EndPoint="0,0.7" StartPoint="1.2,0.5">
             <GradientStop Color="#506CFF"/>
