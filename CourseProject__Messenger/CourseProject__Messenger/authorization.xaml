@@ -4,18 +4,48 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CourseProject__Messenger"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         Title="authorization" Height="610" Width="850"
-        WindowStartupLocation="CenterScreen" WindowStyle="None">
+        WindowStartupLocation="CenterScreen">
+     
     <Window.Background>
-    <LinearGradientBrush EndPoint="0,0.7" StartPoint="1.2,0.5">
-        <GradientStop Color="#506CFF"/>
-            <GradientStop Color="#dce1ff" Offset="1"/>
-    </LinearGradientBrush>
-</Window.Background>
+        <LinearGradientBrush EndPoint="0,0.7" StartPoint="1.2,0.5">
+            <GradientStop Color="#FF111138"/>
+            <GradientStop Color="#FF111138" Offset="1"/>
+        </LinearGradientBrush>
+    </Window.Background>
     <Grid>
-        <Border Height="506" VerticalAlignment="Top" CornerRadius="0 0 180 0"  Background="#FF4150A9">
-
+        <Border Height="480" VerticalAlignment="Top" CornerRadius="0 0 180 0">
+            <Border.Background>
+                <LinearGradientBrush EndPoint="0,0.7" StartPoint="1.2,0.5">
+                    <GradientStop Color="#506CFF"/>
+                    <GradientStop Color="#f2fcfe" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.Background>
         </Border>
+        <StackPanel Orientation="Horizontal">
+            <StackPanel Width="380">
+                <Image Source="C:\Users\lenovo\source\repos\messenger\CourseProject__Messenger/img/ICON4801.png" Height="390" Width="374" Stretch="Fill"/>
+            </StackPanel>
+            <StackPanel Width="470">
+                <StackPanel Margin="20 40">
+                    <TextBlock Text="Авторизация" Margin="20" Foreground="White" TextAlignment="Center" FontSize="24"></TextBlock>
+                    <StackPanel Orientation="Horizontal" Margin="10">
+
+                        <materialDesign:PackIcon Kind="User" Width="30" Height="30" Foreground="White"></materialDesign:PackIcon>
+                        <TextBox x:Name="txtLogin" Margin="40 0" materialDesign:HintAssist.Hint="Введите логин" Foreground="White" Width="280" BorderBrush="White" CaretBrush="White" SelectionBrush="White"  Background="Transparent"/>
+
+                    </StackPanel>
+                
+                    <StackPanel Orientation="Horizontal" Margin="10">
+
+                        <materialDesign:PackIcon Kind="Lock" Width="30" Height="30" Foreground="White"></materialDesign:PackIcon>
+                        <PasswordBox x:Name="txtPass" Margin="40 0" materialDesign:HintAssist.Hint="******" Foreground="White" Width="280" BorderBrush="White" CaretBrush="White" SelectionBrush="White"  Background="Transparent"/>
+
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
     </Grid>
 </Window>

@@ -4,6 +4,8 @@
              xmlns:local="clr-namespace:CourseProject__Messenger"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
+    
+
         <Style x:Key="RoundButtonTemplate" TargetType="Button">
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="Foreground" Value="#506CFF" />
@@ -37,8 +39,27 @@
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
+
             </Setter>
+          
+        </Style>
+
+
+        <Style x:Key="RoundTextBox" TargetType="TextBox">
+            <Setter Property="BorderBrush" Value="#506CFF" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                    <Grid>
+                        <Border x:Name="border" CornerRadius="15" Background="{TemplateBinding Background}" BorderThickness="3" BorderBrush="{TemplateBinding BorderBrush}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                    </Grid>
+                </Setter.Value>
+            </Setter>
+
         </Style>
     </Application.Resources>
+ 
 
 </Application>
