@@ -7,6 +7,47 @@
         mc:Ignorable="d"
         Title="TextMe" Height="610" Width="850"
     WindowStartupLocation="CenterScreen" WindowStyle="None">
+
+    <Window.Resources>
+
+        <Style x:Key="RoundButtonTemplate" TargetType="Button">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="#506CFF" />
+            <Setter Property="BorderBrush" Value="#506CFF" />
+            <Setter Property="Padding" Value="10px" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Border x:Name="border" CornerRadius="15" Background="{TemplateBinding Background}" BorderThickness="3" BorderBrush="{TemplateBinding BorderBrush}">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#506CFF" />
+                                <Setter Property="Foreground" Value="White" />
+                                <Setter TargetName="border" Property="BorderBrush" Value="#506CFF" />
+                                <Setter Property="Cursor" Value="Hand" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#7289ff" />
+                                <Setter TargetName="border" Property="BorderBrush" Value="#7289ff" />
+                                <Setter TargetName="border" Property="RenderTransform">
+                                    <Setter.Value>
+                                        <ScaleTransform ScaleX="0.99" ScaleY="0.99" />
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+
+            </Setter>
+
+        </Style>
+    </Window.Resources>
     <Window.Background>
         <LinearGradientBrush EndPoint="0,0.7" StartPoint="1.2,0.5">
             <GradientStop Color="#506CFF"/>

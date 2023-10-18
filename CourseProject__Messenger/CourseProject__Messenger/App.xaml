@@ -4,61 +4,20 @@
              xmlns:local="clr-namespace:CourseProject__Messenger"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-    
 
-        <Style x:Key="RoundButtonTemplate" TargetType="Button">
-            <Setter Property="Background" Value="Transparent" />
-            <Setter Property="Foreground" Value="#506CFF" />
-            <Setter Property="BorderBrush" Value="#506CFF" />
-            <Setter Property="Padding" Value="10px" />
-            <Setter Property="FontWeight" Value="Bold" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Grid>
-                            <Border x:Name="border" CornerRadius="15" Background="{TemplateBinding Background}" BorderThickness="3" BorderBrush="{TemplateBinding BorderBrush}">
-                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
-                            </Border>
-                        </Grid>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#506CFF" />
-                                <Setter Property="Foreground" Value="White" />
-                                <Setter TargetName="border" Property="BorderBrush" Value="#506CFF" />
-                                <Setter Property="Cursor" Value="Hand" />
-                            </Trigger>
-                            <Trigger Property="IsPressed" Value="True">
-                                <Setter Property="Background" Value="#7289ff" />
-                                <Setter TargetName="border" Property="BorderBrush" Value="#7289ff" />
-                                <Setter TargetName="border" Property="RenderTransform">
-                                    <Setter.Value>
-                                        <ScaleTransform ScaleX="0.99" ScaleY="0.99" />
-                                    </Setter.Value>
-                                </Setter>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-
-            </Setter>
-          
-        </Style>
+ 
+            <ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
+                    <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+                    <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.DeepPurple.xaml" />
+                    <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Lime.xaml" />
+                </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary>
 
 
-        <Style x:Key="RoundTextBox" TargetType="TextBox">
-            <Setter Property="BorderBrush" Value="#506CFF" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="TextBox">
-                    <Grid>
-                        <Border x:Name="border" CornerRadius="15" Background="{TemplateBinding Background}" BorderThickness="3" BorderBrush="{TemplateBinding BorderBrush}">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
-                        </Border>
-                    </Grid>
-                </Setter.Value>
-            </Setter>
 
-        </Style>
+
     </Application.Resources>
  
 

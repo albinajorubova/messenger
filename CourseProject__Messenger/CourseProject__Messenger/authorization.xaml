@@ -7,7 +7,8 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         Title="authorization" Height="610" Width="850"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        >
      
     <Window.Background>
         <LinearGradientBrush EndPoint="0,0.7" StartPoint="1.2,0.5">
@@ -25,11 +26,11 @@
             </Border.Background>
         </Border>
         <StackPanel Orientation="Horizontal">
-            <StackPanel Width="380">
-                <Image Source="C:\Users\lenovo\source\repos\messenger\CourseProject__Messenger/img/ICON4801.png" Height="390" Width="374" Stretch="Fill"/>
+            <StackPanel Width="430">
+                <Image Source="C:\Users\lenovo\source\repos\messenger\CourseProject__Messenger/img/ICON4803.png"  Stretch="Fill" Margin="0 80" Width="419" Height="308"/>
             </StackPanel>
-            <StackPanel Width="470">
-                <StackPanel Margin="20 40">
+            <StackPanel Width="400">
+                <StackPanel Margin="0 100 30 90" Height="280" Width="360" >
                     <TextBlock Text="Авторизация" Margin="20" Foreground="White" TextAlignment="Center" FontSize="24"></TextBlock>
                     <StackPanel Orientation="Horizontal" Margin="10">
 
@@ -41,7 +42,7 @@
                     <StackPanel Orientation="Horizontal" Margin="10">
 
                         <materialDesign:PackIcon Kind="Lock" Width="30" Height="30" Foreground="White"></materialDesign:PackIcon>
-                        <PasswordBox x:Name="txtPass" Margin="40 0" materialDesign:HintAssist.Hint="******" Foreground="White" Width="280" BorderBrush="White" CaretBrush="White" SelectionBrush="White"  Background="Transparent"/>
+                        <PasswordBox x:Name="txtPass" Margin="40 0" materialDesign:HintAssist.Hint="****************" Foreground="#f2fcfe" Width="280" BorderBrush="#f2fcfe" CaretBrush="#f2fcfe" SelectionBrush="#f2fcfe"  Background="Transparent"/>
 
                     </StackPanel>
                 </StackPanel>
