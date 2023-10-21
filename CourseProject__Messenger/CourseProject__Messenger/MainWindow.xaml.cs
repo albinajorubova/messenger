@@ -36,5 +36,12 @@ namespace CourseProject__Messenger
             this.Close();
             newWindow.Show();
         }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            registration newWindow = new registration();
+            this.Close();
+            newWindow.Show();
+        }
     }
 }
