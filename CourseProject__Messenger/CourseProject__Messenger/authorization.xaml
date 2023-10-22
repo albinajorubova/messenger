@@ -13,8 +13,8 @@
 
     <Style x:Key="RoundButtonTemplate" TargetType="Button">
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Foreground" Value="#506CFF" />
-        <Setter Property="BorderBrush" Value="#506CFF" />
+            <Setter Property="Foreground" Value="#f2fcfe" />
+            <Setter Property="BorderBrush" Value="#f2fcfe" />
         <Setter Property="Padding" Value="10px" />
         <Setter Property="FontWeight" Value="Bold" />
         <Setter Property="Template">
@@ -66,7 +66,7 @@
         </Border>
         <StackPanel Orientation="Horizontal">
             <StackPanel Width="430">
-                <Image Source="C:\Users\Farkwood\Desktop\ms\ms\CourseProject__Messenger\img\ICON4803.png"  Stretch="Fill" Margin="0 80" Width="419" Height="308"/>
+                <Image Source="C:\Users\lenovo\source\repos\messenger\CourseProject__Messenger\img\ICON4803.png"  Stretch="Fill" Margin="0 80" Width="419" Height="308"/>
             </StackPanel>
             <StackPanel Width="400">
                 <StackPanel Margin="0 100 30 90" Height="280" Width="360" >
@@ -84,7 +84,7 @@
                         <PasswordBox x:Name="txtPass" Margin="40 0" materialDesign:HintAssist.Hint="****************" Foreground="#f2fcfe" Width="280" BorderBrush="#f2fcfe" CaretBrush="#f2fcfe" SelectionBrush="#f2fcfe"  Background="Transparent"/>
 
                     </StackPanel>
-                    <Button Style="{StaticResource RoundButtonTemplate}" Content="Войти в аккаунт" Width="170" Height="45" Margin="10,20" Click="Button_Click_1" HorizontalAlignment="Right"/>
+                    <Button Style="{StaticResource RoundButtonTemplate}" Content="Войти в аккаунт" Width="170" Height="45" Margin="10,20"  HorizontalAlignment="Right"/>
                 </StackPanel>
             </StackPanel>
         </StackPanel>

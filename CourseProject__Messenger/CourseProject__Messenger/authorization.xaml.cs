@@ -23,5 +23,10 @@ namespace CourseProject__Messenger
         {
             InitializeComponent();
         }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

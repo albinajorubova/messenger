@@ -8,9 +8,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Ado" Version="1.1.1" />
+    <PackageReference Include="EntityFramework" Version="6.4.4" />
     <PackageReference Include="MaterialDesignColors" Version="2.1.4" />
     <PackageReference Include="MaterialDesignThemes" Version="4.9.0" />
     <PackageReference Include="MaterialDesignThemes.MahApps" Version="0.3.0" />
+    <PackageReference Include="System.Data.Common" Version="4.3.0" />
   </ItemGroup>
 
 </Project>
