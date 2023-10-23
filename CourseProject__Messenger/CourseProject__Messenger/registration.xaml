@@ -82,7 +82,7 @@
                         <StackPanel Orientation="Horizontal" Margin="10">
 
                         <materialDesign:PackIcon Kind="Email" Width="30" Height="30" Foreground="White"></materialDesign:PackIcon>
-                        <PasswordBox x:Name="txtEmail" Margin="40 0" materialDesign:HintAssist.Hint="Введите адрес электронной почты" Foreground="#f2fcfe" Width="280" BorderBrush="#f2fcfe" CaretBrush="#f2fcfe" SelectionBrush="#f2fcfe"  Background="Transparent"/>
+                        <TextBox x:Name="txtEmail" Margin="40 0" materialDesign:HintAssist.Hint="Введите адрес электронной почты" Foreground="#f2fcfe" Width="280" BorderBrush="#f2fcfe" CaretBrush="#f2fcfe" SelectionBrush="#f2fcfe"  Background="Transparent"/>
 
                         </StackPanel>
                         
@@ -93,7 +93,7 @@
 
                     </StackPanel>
 
-                    <Button Style="{StaticResource RoundButtonTemplate}" Content="Создать аккаунт" Width="170" Height="45" Margin="10,15"  HorizontalAlignment="Right"/>
+                    <Button Style="{StaticResource RoundButtonTemplate}" Content="Создать аккаунт" Width="170" Height="45" Margin="10,15"  HorizontalAlignment="Right" Click="Button_Click"/>
                         
                     </StackPanel>
                 </StackPanel>
