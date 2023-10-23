@@ -84,7 +84,7 @@
                         <PasswordBox x:Name="txtPass" Margin="40 0" materialDesign:HintAssist.Hint="****************" Foreground="#f2fcfe" Width="280" BorderBrush="#f2fcfe" CaretBrush="#f2fcfe" SelectionBrush="#f2fcfe"  Background="Transparent"/>
 
                     </StackPanel>
-                    <Button Style="{StaticResource RoundButtonTemplate}" Content="Войти в аккаунт" Width="170" Height="45" Margin="10,20"  HorizontalAlignment="Right"/>
+                    <Button Style="{StaticResource RoundButtonTemplate}" Content="Войти в аккаунт" Width="170" Height="45" Margin="10,20"  HorizontalAlignment="Right" Click="Button_Click"/>
                 </StackPanel>
             </StackPanel>
         </StackPanel>
