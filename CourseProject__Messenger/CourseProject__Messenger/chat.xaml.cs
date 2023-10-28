@@ -42,5 +42,10 @@ namespace CourseProject__Messenger
 
             }
         }
+
+        private void AccountMenuButton_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

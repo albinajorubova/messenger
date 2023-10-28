@@ -3,7 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:CourseProject__Messenger"
+        xmlns:icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        xmlns:local="clr-namespace:CourseProject__Messenger.usercontrols"
+        xmlns:uc="clr-namespace:CourseProject__Messenger.usercontrols"
         mc:Ignorable="d"
         Title="chat" Height="830" Width="1250" ResizeMode="NoResize" Background="Transparent" AllowsTransparency="True" WindowStyle="None" WindowStartupLocation="CenterScreen">
     
@@ -29,7 +31,9 @@
                     
                 </TextBlock>
                 <StackPanel Margin="0 170 0 0">
-                    
+                    <uc:AccountMenuButton Title="A" GradientColor1="Red" GradientColor2="Green"/>
+                    <uc:AccountMenuButton Title="B" GradientColor1="Red" GradientColor2="blue"/>
+                    <uc:AccountMenuButton Title="C" GradientColor1="Red" GradientColor2="Green"/>
                 </StackPanel>
                 
             </Grid>
