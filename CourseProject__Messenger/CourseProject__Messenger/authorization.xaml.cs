@@ -53,15 +53,23 @@ namespace CourseProject__Messenger
             string email = txtLogin.Text;
             string password = txtPass.Password;
 
+            if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(password))
+            {
+                MessageBox.Show("Пожалуйста, введите email и пароль.");
+                return; // Завершаем метод, не продолжая с аутентификацией
+            }
+
             if (AuthenticateUser(email, password))
             {
-                MessageBox.Show("Авторизация успешна!");
-                // Здесь вы можете перенаправить пользователя на другую страницу или выполнить другие действия
+                chat newWindow = new chat();
+                this.Close();
+                newWindow.Show();
             }
             else
             {
                 MessageBox.Show("Неверный email или пароль.");
             }
         }
+
     }
 }

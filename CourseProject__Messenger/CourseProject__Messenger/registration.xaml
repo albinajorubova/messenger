@@ -57,7 +57,7 @@
             </LinearGradientBrush>
         </Window.Background>
         <Grid>
-            <Border Height="480" VerticalAlignment="Top" CornerRadius="0 0 180 0">
+            <Border Height="480" VerticalAlignment="Top" CornerRadius="0 0 150 0">
                 <Border.Background>
                     <LinearGradientBrush EndPoint="0,0.7" StartPoint="1.2,0.5">
                         <GradientStop Color="#506CFF"/>
