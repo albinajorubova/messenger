@@ -67,7 +67,7 @@
             </Border>
             <StackPanel Orientation="Horizontal">
                 <StackPanel Width="430">
-                <Image Source="C:\Users\lenovo\source\repos\messenger\CourseProject__Messenger\img\ICON4803.png"  Stretch="Fill" Margin="0 80" Width="419" Height="308"/>
+                <Image Source="C:\Users\stud305\source\repos\messenger\CourseProject__Messenger\img\ICON4803.png"  Stretch="Fill" Margin="0 80" Width="419" Height="308"/>
                 </StackPanel>
                 <StackPanel Width="400">
                     <StackPanel Margin="0 100 30 90" Height="300" Width="360" >
@@ -92,10 +92,11 @@
                             <PasswordBox x:Name="txtPass" Margin="40 0" materialDesign:HintAssist.Hint="****************" Foreground="#f2fcfe" Width="280" BorderBrush="#f2fcfe" CaretBrush="#f2fcfe" SelectionBrush="#f2fcfe"  Background="Transparent"/>
 
                     </StackPanel>
-
-                    <Button Style="{StaticResource RoundButtonTemplate}" Content="Создать аккаунт" Width="170" Height="45" Margin="10,15"  HorizontalAlignment="Right" Click="Button_Click"/>
-                        
+                    <StackPanel Orientation="Horizontal" Margin="0 10">
+                        <Button Style="{StaticResource RoundButtonTemplate}" Content="Назад" Width="170" Height="45" Margin="0,0"  HorizontalAlignment="Right" Click="Button_Click_1"/>
+                        <Button Style="{StaticResource RoundButtonTemplate}" Content="Создать аккаунт" Width="170" Height="45" Margin="10,15"  HorizontalAlignment="Right" Click="Button_Click"/>
                     </StackPanel>
+                </StackPanel>
                 </StackPanel>
             </StackPanel>
         </Grid>

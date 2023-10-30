@@ -16,6 +16,7 @@
     <PackageReference Include="MaterialDesignThemes" Version="4.9.0" />
     <PackageReference Include="MaterialDesignThemes.MahApps" Version="0.3.0" />
     <PackageReference Include="MySql.Data" Version="8.1.0" />
+    <PackageReference Include="MySqlConnector" Version="2.2.7" />
     <PackageReference Include="System.Data.Common" Version="4.3.0" />
     <PackageReference Include="zxcvbn-core" Version="7.0.92" />
   </ItemGroup>

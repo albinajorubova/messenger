@@ -23,7 +23,7 @@ namespace CourseProject__Messenger
     public partial class authorization : Window
     {
 
-        string connectionString = "Server=sql11.freesqldatabase.com;Database=sql11655951;User ID=sql11655951;Password=BtYZLsm6hQ;Port=3306;";
+        string connectionString = "Server=sql11.freesqldatabase.com;Database=sql11657900;User ID=sql11657900;Password=SC7ljfmGqs;Port=3306;";
         public authorization()
         {
             InitializeComponent();
@@ -71,5 +71,11 @@ namespace CourseProject__Messenger
             }
         }
 
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            MainWindow newWindow = new MainWindow();
+            this.Close();
+            newWindow.Show();
+        }
     }
 }

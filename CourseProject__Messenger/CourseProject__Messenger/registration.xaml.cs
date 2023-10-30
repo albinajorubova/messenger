@@ -9,7 +9,7 @@ namespace CourseProject__Messenger
 {
     public partial class registration : Window
     {
-        string connectionString = "Server=sql11.freesqldatabase.com;Database=sql11655951;User ID=sql11655951;Password=BtYZLsm6hQ;Port=3306;";
+        string connectionString = "Server=sql11.freesqldatabase.com;Database=sql11657900;User ID=sql11657900;Password=SC7ljfmGqs;Port=3306;";
         string insertQuery = "INSERT INTO users (nikname, email, pass) VALUES (@nikname, @email, @pass)";
 
         public registration()
@@ -69,6 +69,13 @@ namespace CourseProject__Messenger
                     MessageBox.Show("Регистрация успешно завершена!");
                 }
             }
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            MainWindow newWindow = new MainWindow();
+            this.Close();
+            newWindow.Show();
         }
     }
 }
