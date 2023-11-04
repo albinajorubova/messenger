@@ -48,6 +48,11 @@ namespace CourseProject__Messenger
         {
 
         }
+
+        private void MenuButton_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
    
 }

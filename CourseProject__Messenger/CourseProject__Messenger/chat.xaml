@@ -47,12 +47,43 @@
             </Grid>
           
         </Border>
-        <Border CornerRadius="20" Grid.Column="1" Grid.RowSpan="3" Panel.ZIndex="1" Background="#FF111138">
+        <Border  Grid.Column="1" Grid.RowSpan="3" CornerRadius="0 20 20 0" Margin="-25 0 0 0" Panel.ZIndex="1" Background="#6f50ff">
             <Grid>
                 <StackPanel Margin="0 170 0 0">
 
                 </StackPanel>
+                
+                
+               <!--вот тут крутые кнопки-->
+
+                <StackPanel Margin="25 160 0 0">
+                    <uc:MenuButton Title="govn" Icon="HomeOutline"/>
+                    <uc:MenuButton Title="messsege" Icon="MessageOutline" IsActive="True"/>
+
+                    
+                    
+                   
+                </StackPanel>
+                <StackPanel Margin="25 0 0 100" VerticalAlignment="Bottom">
+                    <uc:MenuButton Title="settings" Icon="CogOutline" Loaded="MenuButton_Loaded" />
+                    <uc:MenuButton Title="Logout" Icon="Logout" />
+                    
+
+
+
+                </StackPanel>
             </Grid>
         </Border>
+        <!--верхняя часть-->
+        <Grid Grid.Column="2" Grid.ColumnSpan="2" Margin="40 30">
+            <!--поиск-->
+            <Grid Width="500" HorizontalAlignment="Left">
+                <!--<ComboBox Style="{StaticResource ComboBoxStyle1}">
+                    
+                </ComboBox>-->
+                
+            </Grid>
+            
+        </Grid>
     </Grid>
 </Window>

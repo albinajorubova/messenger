@@ -14,7 +14,7 @@
 
         <Style x:Key="leftsideButton" TargetType="Button">
             <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Foreground" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#fff"/>
             <Setter Property="Tag" Value="hidden"/>
             <Setter Property="Margin" Value="0 0 0 5"/>
             <Setter Property="Height" Value="40"/>
@@ -38,6 +38,57 @@
                     </DataTrigger>
                 </Style.Triggers>
             </Style>
+
+            <Style x:Key="menuButton" TargetType="Button">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="Foreground" Value="#fff"/>
+                <Setter Property="Tag" Value="hidden"/>
+                <Setter Property="Margin" Value="25 0 0 0"/>
+                <Setter Property="Height" Value="45"/>
+                <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="{TemplateBinding Background}" CornerRadius="20 0 0 20">
+                                <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Tag" Value="Visible"/>
+                        <Setter Property="Background" Value="#f8f7fc"/>
+                        <Setter Property="Foreground" Value="#6f53f3"/>
+                        
+                    </Trigger>
+                    <Trigger Property="IsMouseOver" Value="False">
+                        <Setter Property="Tag" Value="Hidden"/>
+                        
+                    </Trigger>
+                    <DataTrigger Binding="{Binding ElementName=menuButton, Path=IsActive}" Value="true">
+                        <Setter Property="Tag" Value="visible"/>
+                        <Setter Property="Background" Value="#f8f7fc"/>
+                        <Setter Property="Foreground" Value="#6f53f3"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+
+
+            <Style x:Key="nameButtonIcon" TargetType="icon:PackIconMaterial">
+                <Setter Property="Width" Value="16"/>
+                <Setter Property="Height" Value="16"/>
+                <Setter Property="Margin" Value="20 0"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="Foreground" Value="{Binding Path=Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Button}}}"/>
+            </Style>
+            <Style x:Key="nameButtonText" TargetType="TextBlock">
+                <Setter Property="Foreground" Value="{Binding Path=Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Button}}}"/>
+                <Setter Property="FontSize" Value="13"/>
+                <Setter Property="FontWeight" Value="Light"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>
