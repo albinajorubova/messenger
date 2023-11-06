@@ -122,9 +122,10 @@
                 </Grid>
                 <!--сам чат-->
                 <StackPanel Grid.Row="1" Margin="20 10 20 20">
-                    <uc:Chat_Separator/>
-                    <uc:UserChat/>
-
+                    <uc:Chat_Separator Title="Yesterday"/>
+                    <uc:UserChat Username="Maud Carson" Image="C:\Users\lenovo\Desktop\treningSNP-master\images\feedback photo-1.jpg"/>
+                    <uc:MessageChat Color="#ff82a3" Message="Hello"/>
+                    <TextBlock Text="3:10 PM" Style="{StaticResource timeText}"></TextBlock>
                 </StackPanel>
             </Grid>
             

@@ -24,14 +24,15 @@ namespace CourseProject__Messenger.usercontrols
         {
             InitializeComponent();
         }
+
         public string Username
         {
             get { return (string)GetValue(UsernameProperty); }
             set { SetValue(UsernameProperty, value); }
         }
 
-        public static readonly DependencyProperty UsernameProperty =
-            DependencyProperty.Register("Username", typeof(string), typeof(UserChat));
+
+        public static readonly DependencyProperty UsernameProperty = DependencyProperty.Register("Username", typeof(string), typeof(UserChat));
 
 
         public ImageSource Image
@@ -43,4 +44,11 @@ namespace CourseProject__Messenger.usercontrols
         public static readonly DependencyProperty ImageProperty =
             DependencyProperty.Register("Image", typeof(ImageSource), typeof(UserChat));
     }
+
+
+
+
+
+
+
 }
