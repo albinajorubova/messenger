@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="Ado" Version="1.1.1" />
+    <PackageReference Include="BaseLibS" Version="1.6.4.382" />
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="EntityFramework" Version="6.4.4" />
     <PackageReference Include="MahApps.Metro.IconPacks.Material" Version="4.11.0" />
