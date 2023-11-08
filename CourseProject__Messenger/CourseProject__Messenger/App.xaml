@@ -184,6 +184,11 @@
                    
                 </Style.Triggers>
             </Style>
+            <Style x:Key="ContextMenuStyle" TargetType="ContextMenu">
+                <Setter Property="Background" Value="#F1EFFB" />
+                <Setter Property="BorderBrush" Value="#6F52F9" />
+            </Style>
+
 
             <Style x:Key="messageTextbox" TargetType="TextBox">
                 <Setter Property="Background" Value="#F5F7F9" />

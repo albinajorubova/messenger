@@ -32,6 +32,7 @@
                         <Setter Property="BorderBrush"
                                 Value="#6F52F9" />
                     </DataTrigger>
+
                 </Style.Triggers>
             </Style>
         </Border.Style>
@@ -98,8 +99,10 @@
                            VerticalAlignment="Center"
                            HorizontalAlignment="Center"
                            Foreground="#ffffff" />
+               
             </Border>
 
         </Grid>
+     
     </Border>
 </UserControl>

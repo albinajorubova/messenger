@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using CourseProject__Messenger.usercontrols;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 
@@ -9,12 +11,26 @@ namespace CourseProject__Messenger
     /// </summary>
     public partial class chat : Window
     {
+       
+
         public chat()
         {
             InitializeComponent();
-        }
 
-       
+        }
+        private void Item_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            // Обработчик события
+        }
+        private void DeleteMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            // Обработчик события "удалить диалог"
+            // Здесь вы можете добавить код для удаления диалога
+        }
+        private void BlockItems_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            // Обработчик события
+        }
         private void Border_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left)
@@ -54,20 +70,12 @@ namespace CourseProject__Messenger
 
         }
 
-        private void txtMessage_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        private void MenuButton_Loaded_1(object sender, RoutedEventArgs e)
         {
 
         }
 
-        private void txtMessage_TextChanged_1(object sender, System.Windows.Controls.TextChangedEventArgs e)
-        {
-
-        }
-
-        private void txtMessage_TextChanged_2(object sender, System.Windows.Controls.TextChangedEventArgs e)
-        {
-
-        }
+       
     }
    
 }
