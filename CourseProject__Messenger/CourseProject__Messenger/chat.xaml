@@ -9,7 +9,7 @@
         xmlns:uc="clr-namespace:CourseProject__Messenger.usercontrols"
         mc:Ignorable="d"
         Title="chat" Height="830" Width="1250" ResizeMode="NoResize" Background="Transparent" AllowsTransparency="True" WindowStyle="None" WindowStartupLocation="CenterScreen">
-    
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="55"/>
@@ -29,7 +29,7 @@
                     <TextBlock.LayoutTransform>
                         <RotateTransform Angle="90"/>
                     </TextBlock.LayoutTransform>
-                    
+
                 </TextBlock>
                 <StackPanel Margin="0 170 0 0">
                     <uc:AccountMenuButton Title="A" GradientColor1="Red" GradientColor2="blue"/>
@@ -38,36 +38,36 @@
 
                     <Button Style="{StaticResource leftsideButton}">
                         <Border Background="Transparent" CornerRadius="3" Width="25" Height="25" BorderThickness="0.8" Margin="-3 0 0 0" BorderBrush="White">
-                       
+
                             <materialDesign:PackIcon Kind="Plus" Width="15" Height="15" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"></materialDesign:PackIcon>
                         </Border>
                     </Button>
                 </StackPanel>
-               
+
             </Grid>
-          
+
         </Border>
         <Border  Grid.Column="1" Grid.RowSpan="3" CornerRadius="0 20 20 0" Margin="-25 0 0 0" Panel.ZIndex="1" Background="#6f50ff">
             <Grid>
                 <StackPanel Margin="0 170 0 0">
 
                 </StackPanel>
-                
-                
-               <!--вот тут крутые кнопки-->
+
+
+                <!--вот тут крутые кнопки-->
 
                 <StackPanel Margin="25 160 0 0">
                     <uc:MenuButton Title="home" Icon="HomeOutline"/>
                     <uc:MenuButton Title="messsege" Icon="MessageOutline" IsActive="True"/>
 
-                    
-                    
-                   
+
+
+
                 </StackPanel>
                 <StackPanel Margin="25 0 0 100" VerticalAlignment="Bottom">
                     <uc:MenuButton Title="settings" Icon="CogOutline" Loaded="MenuButton_Loaded" />
                     <uc:MenuButton Title="Logout" Icon="Logout" />
-                    
+
 
 
 
@@ -81,9 +81,9 @@
                 <!--<ComboBox Style="{StaticResource ComboBoxStyle1}">
                     
                 </ComboBox>-->
-                
+
             </Grid>
-            
+
         </Grid>
         <!--чат-->
         <Border CornerRadius="15" Background="#fff" Grid.Column="3" Grid.Row="1" Margin="0 0 30 30" ClipToBounds="True" >
@@ -123,13 +123,13 @@
                 <!--сам чат-->
                 <StackPanel Grid.Row="1" Margin="20 10 20 20">
                     <uc:Chat_Separator Title="Yesterday"/>
-                    <uc:UserChat Username="Maud Carson" Image="C:\Users\lenovo\source\repos\messenger\CourseProject__Messenger\img\review1.jpg"/>
+                    <uc:UserChat Username="Maud Carson" Image="C:\Users\Farkwood\Desktop\loool\ччч\CourseProject__Messenger\img\review1.jpg"/>
                     <uc:MessageChat Color="#ff82a3" Message="Hello"/>
                     <TextBlock Text="3:10 PM" Style="{StaticResource timeText}"></TextBlock>
                     <uc:MyMessageChat Message="Hi Maud, Are u ok?"/>
                     <uc:MyMessageChat Message="Guys we have a plan to choose best way"/>
                     <TextBlock Text="4:15 PM" Style="{StaticResource timeTextRight}"/>
-                    <uc:UserChat Username="Russel Greene" Image="C:\Users\lenovo\source\repos\messenger\CourseProject__Messenger\img\review2.jpg"/>
+                    <uc:UserChat Username="Russel Greene" Image="C:\Users\Farkwood\Desktop\loool\ччч\CourseProject__Messenger\img\review2.jpg"/>
                     <uc:MessageChat Color="#c490ff" Message="Can you share your opinion?"/>
                     <TextBlock Text="5:15 PM" Style="{StaticResource timeText}"/>
                     <uc:Chat_Separator Title="Today" Margin="0 5 0 0"/>
@@ -144,8 +144,8 @@
                     </Grid.ColumnDefinitions>
                     <!--Сообщения-->
                     <Grid>
-                        <TextBlock Margin="15 0 120 0" VerticalAlignment="Center" Foreground="#868686" Panel.ZIndex="1" IsHitTestVisible="False" Text="Type your message..." Visibility="{Binding ElementName=txtMessage,Path=Text.IsEmpty,  Converter={StaticResource BooleanToVisibilityConverter}}" />
-                        <TextBlock x:Name="txtMessage"/>
+                        <TextBlock Margin="15,0,120,0" VerticalAlignment="Center" Foreground="#868686" Panel.ZIndex="1" IsHitTestVisible="False" Text="Type your message..." Visibility="{Binding ElementName=txtMessage,Path=Text.IsEmpty,  Converter={StaticResource BooleanToVisibilityConverter}}" Height="24"  />
+                        <TextBox x:Name="txtMessage" Style="{StaticResource messageTextbox}" Height="40" VerticalAlignment="Center"/>
                         <StackPanel Orientation="Horizontal" Margin="0 0 8 0" HorizontalAlignment="Right" VerticalAlignment="Center">
                             <Button Style="{StaticResource textboxButton}" Margin="0 0 1 0">
                                 <icon:PackIconMaterial Kind="BookmarkMultipleOutline" Width="12" Foreground="#a6a6a6"/>
@@ -153,7 +153,7 @@
                             <Button Style="{StaticResource textboxButton}">
                                 <icon:PackIconMaterial Kind="Paperclip" Width="12" Foreground="#a6a6a6"/>
                             </Button>
-                          
+
                         </StackPanel>
                     </Grid>
                     <Button Grid.Column="1" Margin="5 0 0 0" Style="{StaticResource textboxButton}">
@@ -164,8 +164,8 @@
                         </icon:PackIconMaterial>
                     </Button>
                 </Grid>
-                
-              
+
+
             </Grid>
         </Border>
     </Grid>

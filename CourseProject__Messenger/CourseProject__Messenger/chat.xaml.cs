@@ -53,6 +53,21 @@ namespace CourseProject__Messenger
         {
 
         }
+
+        private void txtMessage_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+
+        }
+
+        private void txtMessage_TextChanged_1(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+
+        }
+
+        private void txtMessage_TextChanged_2(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+
+        }
     }
    
 }

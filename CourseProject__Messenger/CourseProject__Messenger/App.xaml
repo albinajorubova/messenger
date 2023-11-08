@@ -2,7 +2,7 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
-             StartupUri="MainWindow.xaml">
+             StartupUri="chat.xaml">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -39,7 +39,7 @@
                 </Style.Triggers>
             </Style>
 
-            <Style x:Key="menuButton" TargetType="Button">
+        <Style x:Key="menuButton" TargetType="Button">
                 <Setter Property="Background" Value="Transparent"/>
                 <Setter Property="Foreground" Value="#fff"/>
                 <Setter Property="Tag" Value="hidden"/>
@@ -133,7 +133,7 @@
                 <Setter Property="BorderThickness" Value="1" />
                 <Setter Property="BorderBrush" Value="#E1E0E3" />
                 <Setter Property="FontSize" Value="12" />
-                <Setter Property="Padding" Value="10 15 120 15" />
+                <Setter Property="Padding" Value="120 30 120 30" />
                 <Setter Property="VerticalAlignment" Value="Center" />
                 <Setter Property="Margin" Value="0 10" />
                 <Setter Property="Template">
