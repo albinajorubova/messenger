@@ -9,7 +9,7 @@
     <Border BorderThickness="2" BorderBrush="#fff" CornerRadius="50" VerticalAlignment="Center">
         <Ellipse Width="23" Height="23" >
             <Ellipse.Fill>
-                <ImageBrush ImageSource="{Binding ElementName=userImage, Path=image}"/>
+                <ImageBrush ImageSource="{Binding ElementName=userImage, Path=Image}"/>
             </Ellipse.Fill>
         </Ellipse>
         

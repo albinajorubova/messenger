@@ -99,27 +99,29 @@
                              Message="Okay, Nice work"
                              Color="#73AFFF"
                              MessageCount="2" MouseRightButtonDown="Item_MouseRightButtonDown"
-                             ContextMenu="{StaticResource ContextMenuDelete}"/>
+                             ContextMenu="{StaticResource ContextMenuDelete}"
+                             Image="pack://application:,,,/CourseProject__Messenger;component/img/review1.jpg"/>
 
                     <uc:Item Title="Reza Asadi"
                             
                              Message="Plz share those recap to me"
                              Visible="Collapsed"
-                             ContextMenu="{StaticResource ContextMenuDelete}"/>
+                             ContextMenu="{StaticResource ContextMenuDelete}"
+                             Image="pack://application:,,,/CourseProject__Messenger;component/img/review2.jpg"/>
 
                     <uc:Item Title="Gavin Harrison"
                             
                              Message="You can check it now"
                              Visible="Collapsed"
                               Color="#73AFFF"
-                             TagName="AK"
+                             TagName="GH"
                              ContextMenu="{StaticResource ContextMenuDelete}"/>
 
                     <uc:Item Title="Lillian Davis"
                              
                              Message="OMG !!!"
                              Color="#5AC795"
-                             TagName="BM"
+                             TagName="LD"
                              MessageCount="3" 
                              ContextMenu="{StaticResource ContextMenuDelete}"/>
                 </StackPanel>
@@ -144,13 +146,14 @@
 
                     <TextBlock Text="moonlab std" FontSize="16" Margin="20 15" HorizontalAlignment="Left"/>
 
-                    <StackPanel Orientation="Horizontal"  Margin="0 0 10 0" HorizontalAlignment="Right">
+                    <StackPanel Orientation="Horizontal"  Margin=" 0 0 10 0" HorizontalAlignment="Right">
 
 
 
                         <!--вот сюда нужно фото-->
 
-                        <uc:UserImage/>
+                        <uc:UserImage Image="pack://application:,,,/CourseProject__Messenger;component/img/review1.jpg" />
+                        <uc:UserImage Margin="-10 0 0 0" Image="pack://application:,,,/CourseProject__Messenger;component/img/review2.jpg"/>
 
 
 
@@ -165,13 +168,13 @@
                 <!--сам чат-->
                 <StackPanel Grid.Row="1" Margin="20 10 20 20">
                     <uc:Chat_Separator Title="Yesterday"/>
-                    <uc:UserChat Username="Maud Carson"/>
+                    <uc:UserChat Username="Maud Carson" Image="pack://application:,,,/CourseProject__Messenger;component/img/review1.jpg"/>
                     <uc:MessageChat Color="#ff82a3" Message="Hello"/>
                     <TextBlock Text="3:10 PM" Style="{StaticResource timeText}"></TextBlock>
                     <uc:MyMessageChat Message="Hi Maud, Are u ok?"/>
                     <uc:MyMessageChat Message="Guys we have a plan to choose best way"/>
                     <TextBlock Text="4:15 PM" Style="{StaticResource timeTextRight}"/>
-                    <uc:UserChat Username="Russel Greene" />
+                    <uc:UserChat Username="Russel Greene" Image="pack://application:,,,/CourseProject__Messenger;component/img/review2.jpg"/>
                     <uc:MessageChat Color="#c490ff" Message="Can you share your opinion?"/>
                     <TextBlock Text="5:15 PM" Style="{StaticResource timeText}"/>
                     <uc:Chat_Separator Title="Today" Margin="0 5 0 0"/>
