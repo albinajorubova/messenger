@@ -52,23 +52,31 @@
 
         </Border>
         <Border  Grid.Column="1" Grid.RowSpan="3" CornerRadius="0 20 20 0" Margin="-25 0 0 0" Panel.ZIndex="1" Background="#6f50ff">
-            <Grid>
-                <StackPanel Margin="0 170 0 0">
+            <TabControl x:Name="MainTabControl" Grid.Column="2" Grid.Row="1">
+                <TabItem Header="">
+                    <Grid>
+                        <!-- Ваш текущий код внутри TabItem -->
+                        <Border Grid.Column="1" Grid.RowSpan="3" CornerRadius="0 20 20 0" Margin="-25 0 0 0" Panel.ZIndex="1" Background="#6f50ff">
+                            <Grid>
+                                <StackPanel Margin="0 170 0 0">
+                                 
+                                </StackPanel>
 
-                </StackPanel>
+                                <!-- Крутые кнопки -->
+                                <StackPanel Margin="25 160 0 0">
+                                    <uc:MenuButton Title="friends" Icon="Contacts" Loaded="MenuButton_Loaded_1"/>
+                                    <uc:MenuButton Title="messsege" Icon="MessageOutline" IsActive="True" Loaded="MenuButton_Loaded_2" MouseLeftButtonDown="MenuButton_MouseLeftButtonDown"/>
+                                </StackPanel>
+                                <StackPanel Margin="25 0 0 100" VerticalAlignment="Bottom">
+                                    <uc:MenuButton Title="settings" Icon="CogOutline" Loaded="MenuButton_Loaded" />
+                                    <uc:MenuButton Title="Logout" Icon="Logout" />
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </TabItem>
 
-
-                <!--вот тут крутые кнопки-->
-
-                <StackPanel Margin="25 160 0 0">
-                    <uc:MenuButton Title="friends" Icon="Contacts" Loaded="MenuButton_Loaded_1"/>
-                    <uc:MenuButton Title="messsege" Icon="MessageOutline" IsActive="True"/>
-                </StackPanel>
-                <StackPanel Margin="25 0 0 100" VerticalAlignment="Bottom">
-                    <uc:MenuButton Title="settings" Icon="CogOutline" Loaded="MenuButton_Loaded" />
-                    <uc:MenuButton Title="Logout" Icon="Logout" />
-                </StackPanel>
-            </Grid>
+            </TabControl>
         </Border>
         <!--верхняя часть-->
         <Grid Grid.Column="2" Grid.ColumnSpan="2" Margin="40 30">
@@ -117,8 +125,7 @@
                              TagName="GH"
                              ContextMenu="{StaticResource ContextMenuDelete}"/>
 
-                    <uc:Item Title="Lillian Davis"
-                             
+                    <uc:Item Title="Lillian Davis"                          
                              Message="OMG !!!"
                              Color="#5AC795"
                              TagName="LD"

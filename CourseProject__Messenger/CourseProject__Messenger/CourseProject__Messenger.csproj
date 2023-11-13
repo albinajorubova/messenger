@@ -8,6 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="img\review1.jpg" />
+    <None Remove="img\review2.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Ado" Version="1.1.1" />
     <PackageReference Include="BaseLibS" Version="1.6.4.382" />
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
@@ -20,6 +25,15 @@
     <PackageReference Include="MySqlConnector" Version="2.2.7" />
     <PackageReference Include="System.Data.Common" Version="4.3.0" />
     <PackageReference Include="zxcvbn-core" Version="7.0.92" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="img\review1.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="img\review2.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>

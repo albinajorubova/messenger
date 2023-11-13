@@ -18,6 +18,20 @@ namespace CourseProject__Messenger
             InitializeComponent();
 
         }
+        private void MenuButton_Loaded(object sender, RoutedEventArgs e)
+        {
+            // Обработчик события Loaded для MenuButton
+          
+        }
+        private void MenuButton_Loaded_1(object sender, RoutedEventArgs e)
+        {
+        }
+        private void MenuButton_Loaded_2(object sender, RoutedEventArgs e)
+        {
+        }
+        private void MenuButton_Loaded_3(object sender, RoutedEventArgs e)
+        {
+        }
         private void Item_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             // Обработчик события
@@ -25,7 +39,6 @@ namespace CourseProject__Messenger
         private void DeleteMenuItem_Click(object sender, RoutedEventArgs e)
         {
             // Обработчик события "удалить диалог"
-            // Здесь вы можете добавить код для удаления диалога
         }
         private void BlockItems_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -60,22 +73,26 @@ namespace CourseProject__Messenger
             }
         }
 
-        private void AccountMenuButton_Loaded(object sender, RoutedEventArgs e)
+        private void MenuButton_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-
+            // При нажатии на кнопку меню, устанавливаем активную вкладку
+            if (sender is MenuButton menuButton)
+            {
+                switch (menuButton.Title.ToLower())
+                {
+                    case "friends":
+                        MainTabControl.SelectedIndex = 0; // Индекс 0 соответствует вкладке "Friends"
+                        break;
+                    case "messsege":
+                        MainTabControl.SelectedIndex = 1; // Индекс 1 соответствует вкладке "Message" (проверьте правильность названия)
+                        break;
+                    case "settings":
+                        MainTabControl.SelectedIndex = 2; // Индекс 2 соответствует вкладке "Settings"
+                        break;
+                        // Добавьте обработку других кнопок, если необходимо
+                }
+            }
         }
-
-        private void MenuButton_Loaded(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void MenuButton_Loaded_1(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-       
     }
-   
+
 }
