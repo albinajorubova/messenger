@@ -13,6 +13,11 @@
         <ContextMenu x:Key="ContextMenuDelete">
             <MenuItem Header="Удалить диалог" Click="DeleteMenuItem_Click"/>
         </ContextMenu>
+
+        <ContextMenu x:Key="ContextMenuFriends">
+            <MenuItem Header="Удалить" Click="DeleteFriendMenuItem_Click"/>
+            <MenuItem Header="Начать диалог" Click="DialogMenuItem_Click"/>
+        </ContextMenu>
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -64,7 +69,7 @@
 
                                 <!-- Крутые кнопки -->
                                 <StackPanel Margin="25 160 0 0">
-                                    <uc:MenuButton x:Name="FriendsBtn" Title="friends" Icon="Contacts"  MouseLeftButtonDown="FriendsBtn_MouseLeftButtonDown" Loaded="FriendsBtn_Loaded" Cursor="Hand"/>
+                                    <uc:MenuButton x:Name="FriendsBtn" Title="friends" Icon="Contacts" MouseLeftButtonDown="FriendsBtn_MouseLeftButtonDown" Loaded="FriendsBtn_Loaded" Cursor="Hand"/>
                                     <uc:MenuButton x:Name="MessageBtn" Title="messsege" Icon="MessageOutline" IsActive="True" MouseLeftButtonDown="MessageBtn_MouseLeftButtonDown" Loaded="MessageBtn_Loaded" Cursor="Hand"/>
                                 </StackPanel>
                                 <StackPanel Margin="25 0 0 100" VerticalAlignment="Bottom">
@@ -141,25 +146,25 @@
                                Margin="25 15 0 5" />
 
                     <!--Person Items-->
-                    <uc:Item Title="Cole Strickland"                           
-                             ContextMenu="{StaticResource ContextMenuDelete}"
-                             Image="pack://application:,,,/CourseProject__Messenger;component/img/review1.jpg"/>
 
                     <uc:Item Title="Reza Asadi"                        
-                             ContextMenu="{StaticResource ContextMenuDelete}"
+                             ContextMenu="{StaticResource ContextMenuFriends}"
                              Image="pack://application:,,,/CourseProject__Messenger;component/img/review2.jpg"/>
 
                     <uc:Item Title="Gavin Harrison"  
                                 Visible="Collapsed"
                              Color="#c490ff"
                              TagName="GH"
-                             ContextMenu="{StaticResource ContextMenuDelete}"/>
+                             ContextMenu="{StaticResource ContextMenuFriends}"/>
 
                     <uc:Item Title="Lillian Davis" 
                                 Visible="Collapsed"
                              Color="#ff82a3"
                              TagName="LD"
-                             ContextMenu="{StaticResource ContextMenuDelete}"/>
+                             ContextMenu="{StaticResource ContextMenuFriends}"/>
+                    <uc:Item Title="Cole Strickland"                           
+                             ContextMenu="{StaticResource ContextMenuFriends}"
+                             Image="pack://application:,,,/CourseProject__Messenger;component/img/review1.jpg"/>
                 </StackPanel>
 
             </Grid>

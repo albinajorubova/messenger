@@ -30,24 +30,24 @@ namespace CourseProject__Messenger
         }
         private void FriendsBtn_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-           
-            // Логика для кнопки друзей
-            friendsListControl.Visibility = Visibility.Collapsed;
-            BlockItems.Visibility = Visibility.Visible;
-            BlockItems2.Visibility = Visibility.Visible;
-            FriendsBtn.IsActive = true;
-            MessageBtn.IsActive = false;
-        }
-
-        private void MessageBtn_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-         
             // Логика для кнопки сообщений
             friendsListControl.Visibility = Visibility.Visible;
             BlockItems.Visibility = Visibility.Collapsed;
             BlockItems2.Visibility = Visibility.Collapsed;
+            FriendsBtn.IsActive = true ;
+            MessageBtn.IsActive = false;
+
+        }
+
+        private void MessageBtn_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            // Логика для кнопки друзей
+            friendsListControl.Visibility = Visibility.Collapsed;
+            BlockItems.Visibility = Visibility.Visible;
+            BlockItems2.Visibility = Visibility.Visible;
             FriendsBtn.IsActive = false;
             MessageBtn.IsActive = true;
+         
         }
         private void MenuButton_Loaded_3(object sender, RoutedEventArgs e)
         {
@@ -59,6 +59,14 @@ namespace CourseProject__Messenger
         private void DeleteMenuItem_Click(object sender, RoutedEventArgs e)
         {
             // Обработчик события "удалить диалог"
+        }
+        private void DialogMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            // Обработчик события "добавить диалог"
+        }
+        private void DeleteFriendMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            // Обработчик события "удалить друга"
         }
         private void BlockItems_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -101,6 +109,11 @@ namespace CourseProject__Messenger
         private void MessageBtn_Loaded(object sender, RoutedEventArgs e)
         {
           
+        }
+
+        private void Item_Loaded(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 
