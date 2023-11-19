@@ -26,9 +26,13 @@ namespace CourseProject__Messenger.usercontrols
 
             this.MouseLeftButtonDown += MenuButton_MouseLeftButtonDown;
         }
-
+        private void MenuButton_Click(object sender, RoutedEventArgs e)
+        {
+            SetValue(IsActiveProperty, true);
+        }
         private void MenuButton_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            // Логика обработки нажатия на кнопку
             if (sender is Button button)
             {
                 button.SetValue(IsActiveProperty, true);
