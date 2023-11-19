@@ -12,13 +12,16 @@
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Lime.xaml" />
              </ResourceDictionary.MergedDictionaries>
 
-        <Style x:Key="leftsideButton" TargetType="Button">
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Foreground" Value="#fff"/>
-            <Setter Property="Tag" Value="hidden"/>
-            <Setter Property="Margin" Value="0 0 0 5"/>
-            <Setter Property="Height" Value="40"/>
-            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+
+         
+
+            <Style x:Key="leftsideButton" TargetType="Button">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="Foreground" Value="#fff"/>
+                <Setter Property="Tag" Value="hidden"/>
+                <Setter Property="Margin" Value="0 0 0 5"/>
+                <Setter Property="Height" Value="40"/>
+                <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="Button">
@@ -28,18 +31,17 @@
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
-                <Style.Triggers>
+                <!--<Style.Triggers>
                     <Trigger Property="IsMouseOver" Value="True">
                         <Setter Property="Tag" Value="Visible"/>
-
                     </Trigger>
-                    <DataTrigger Binding="{Binding ElementName=accountMeny, Path=IsActive}" Value="true">
+                    <DataTrigger Binding="{Binding ElementName=menuButton, Path=IsActive}" Value="true">
                         <Setter Property="Tag" Value="visible"/>
                     </DataTrigger>
-                </Style.Triggers>
+                </Style.Triggers>-->
             </Style>
 
-        <Style x:Key="menuButton" TargetType="Button">
+            <Style x:Key="menuButton" TargetType="Button">
                 <Setter Property="Background" Value="Transparent"/>
                 <Setter Property="Foreground" Value="#fff"/>
                 <Setter Property="Tag" Value="hidden"/>
@@ -52,27 +54,27 @@
                             <Border Background="{TemplateBinding Background}" CornerRadius="20 0 0 20">
                                 <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
                             </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Tag" Value="Visible"/>
+                                    <Setter Property="Background" Value="#f8f7fc"/>
+                                    <Setter Property="Foreground" Value="#6f53f3"/>
+                                </Trigger>
+                                <Trigger Property="IsMouseOver" Value="False">
+                                    <Setter Property="Tag" Value="Hidden"/>
+                                </Trigger>
+                                <!-- Binding на IsActive -->
+                                <DataTrigger Binding="{Binding IsActive, RelativeSource={RelativeSource AncestorType={x:Type Button}}}" Value="True">
+                                    <Setter Property="Tag" Value="visible"/>
+                                    <Setter Property="Background" Value="#f8f7fc"/>
+                                    <Setter Property="Foreground" Value="#6f53f3"/>
+                                </DataTrigger>
+                            </ControlTemplate.Triggers>
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
-                <Style.Triggers>
-                    <Trigger Property="IsMouseOver" Value="True">
-                        <Setter Property="Tag" Value="Visible"/>
-                        <Setter Property="Background" Value="#f8f7fc"/>
-                        <Setter Property="Foreground" Value="#6f53f3"/>
-                        
-                    </Trigger>
-                    <Trigger Property="IsMouseOver" Value="False">
-                        <Setter Property="Tag" Value="Hidden"/>
-                        
-                    </Trigger>
-                    <DataTrigger Binding="{Binding ElementName=menuButton, Path=IsActive}" Value="true">
-                        <Setter Property="Tag" Value="visible"/>
-                        <Setter Property="Background" Value="#f8f7fc"/>
-                        <Setter Property="Foreground" Value="#6f53f3"/>
-                    </DataTrigger>
-                </Style.Triggers>
             </Style>
+
 
 
             <Style x:Key="nameButtonIcon" TargetType="icon:PackIconMaterial">

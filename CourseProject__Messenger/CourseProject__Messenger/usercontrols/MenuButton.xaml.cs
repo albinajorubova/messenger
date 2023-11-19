@@ -23,6 +23,16 @@ namespace CourseProject__Messenger.usercontrols
         public MenuButton()
         {
             InitializeComponent();
+
+            this.MouseLeftButtonDown += MenuButton_MouseLeftButtonDown;
+        }
+
+        private void MenuButton_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is Button button)
+            {
+                button.SetValue(IsActiveProperty, true);
+            }
         }
         public string Title
         {

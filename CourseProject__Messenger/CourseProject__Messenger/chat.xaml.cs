@@ -1,8 +1,10 @@
 ﻿using CourseProject__Messenger.usercontrols;
+using System.Diagnostics;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-
+using System.Windows.Media;
 
 namespace CourseProject__Messenger
 {
@@ -20,14 +22,32 @@ namespace CourseProject__Messenger
         }
         private void MenuButton_Loaded(object sender, RoutedEventArgs e)
         {
-            // Обработчик события Loaded для MenuButton
           
         }
-        private void MenuButton_Loaded_1(object sender, RoutedEventArgs e)
+        private void MenuButton_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            
         }
-        private void MenuButton_Loaded_2(object sender, RoutedEventArgs e)
+        private void FriendsBtn_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+           
+            // Логика для кнопки друзей
+            friendsListControl.Visibility = Visibility.Collapsed;
+            BlockItems.Visibility = Visibility.Visible;
+            BlockItems2.Visibility = Visibility.Visible;
+            FriendsBtn.IsActive = true;
+            MessageBtn.IsActive = false;
+        }
+
+        private void MessageBtn_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+         
+            // Логика для кнопки сообщений
+            friendsListControl.Visibility = Visibility.Visible;
+            BlockItems.Visibility = Visibility.Collapsed;
+            BlockItems2.Visibility = Visibility.Collapsed;
+            FriendsBtn.IsActive = false;
+            MessageBtn.IsActive = true;
         }
         private void MenuButton_Loaded_3(object sender, RoutedEventArgs e)
         {
@@ -73,25 +93,14 @@ namespace CourseProject__Messenger
             }
         }
 
-        private void MenuButton_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void FriendsBtn_Loaded(object sender, RoutedEventArgs e)
         {
-            // При нажатии на кнопку меню, устанавливаем активную вкладку
-            if (sender is MenuButton menuButton)
-            {
-                switch (menuButton.Title.ToLower())
-                {
-                    case "friends":
-                        MainTabControl.SelectedIndex = 0; // Индекс 0 соответствует вкладке "Friends"
-                        break;
-                    case "messsege":
-                        MainTabControl.SelectedIndex = 1; // Индекс 1 соответствует вкладке "Message" (проверьте правильность названия)
-                        break;
-                    case "settings":
-                        MainTabControl.SelectedIndex = 2; // Индекс 2 соответствует вкладке "Settings"
-                        break;
-                        // Добавьте обработку других кнопок, если необходимо
-                }
-            }
+      
+        }
+   
+        private void MessageBtn_Loaded(object sender, RoutedEventArgs e)
+        {
+          
         }
     }
 

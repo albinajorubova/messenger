@@ -95,5 +95,6 @@ namespace CourseProject__Messenger.usercontrols
 
         public static readonly DependencyProperty ImageProperty = DependencyProperty.Register("Image", typeof(ImageSource), typeof(Item));
 
+      
     }
 }
