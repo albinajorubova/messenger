@@ -57,8 +57,8 @@
 
         </Border>
         <Border  Grid.Column="1" Grid.RowSpan="3" CornerRadius="0 20 20 0" Margin="-25 0 0 0" Panel.ZIndex="1" Background="#6f50ff">
-            <TabControl x:Name="MainTabControl" Grid.Column="2" Grid.Row="1" >
-                <TabItem Header="{Binding UserName}">
+            <TabControl x:Name="MainTabControl" Grid.Column="2" Grid.Row="1">
+                <TabItem Header="">
                     <Grid>
                         <!-- Ваш текущий код внутри TabItem -->
                         <Border Grid.Column="1" Grid.RowSpan="3" CornerRadius="0 20 20 0" Margin="-25 0 0 0" Panel.ZIndex="1" Background="#6f50ff">
@@ -69,13 +69,12 @@
 
                                 <!-- Крутые кнопки -->
                                 <StackPanel Margin="25 160 0 0">
-
-                                    <uc:MenuButton x:Name="FriendsBtn" Title="friends" Icon="Contacts" MouseLeftButtonDown="FriendsBtn_MouseLeftButtonDown" Loaded="FriendsBtn_Loaded" Cursor="Hand"/>
+                                    <uc:MenuButton x:Name="FriendsBtn" Title="friends" Icon="Contacts"  MouseLeftButtonDown="FriendsBtn_MouseLeftButtonDown" Loaded="FriendsBtn_Loaded" Cursor="Hand"/>
                                     <uc:MenuButton x:Name="MessageBtn" Title="messsege" Icon="MessageOutline" IsActive="True" MouseLeftButtonDown="MessageBtn_MouseLeftButtonDown" Loaded="MessageBtn_Loaded" Cursor="Hand"/>
                                 </StackPanel>
                                 <StackPanel Margin="25 0 0 100" VerticalAlignment="Bottom">
                                     <uc:MenuButton Title="settings" Icon="CogOutline" Loaded="MenuButton_Loaded" />
-                                    <uc:MenuButton Title="Logout" Icon="Logout" Loaded="MenuButton_Loaded_1" />
+                                    <uc:MenuButton Title="Logout" Icon="Logout" />
                                 </StackPanel>
                             </Grid>
                         </Border>
@@ -85,7 +84,9 @@
             </TabControl>
         </Border>
         <!--верхняя часть-->
-     
+        <Grid Grid.Column="2" Grid.ColumnSpan="2" Margin="40 30">
+        
+        </Grid>
 
         <!--Chat Items Section-->
         <Border Grid.Column="2"
@@ -167,34 +168,22 @@
 
             </Grid>
         </Border>
-
+    
+    
         <Border  x:Name="FriendsItem2" CornerRadius="15" Background="#fff" Grid.Column="3" Grid.Row="1" Margin="0 0 30 30" ClipToBounds="True" Visibility="Collapsed">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="auto"/>
-                </Grid.RowDefinitions>
-                
-              
-                <Grid Grid.Column="2" Grid.ColumnSpan="2" Margin="50px 50px">
-                    <TextBlock Text="Search"
+            <StackPanel>
+                <TextBlock Text="Search"
                                Style="{StaticResource textTitle}"
                                Margin="25 15 0 5" />
-                    <!--поиск-->
-                    <Grid Width="500" HorizontalAlignment="Left"  Margin="-10px 50px">
-                        <ComboBox HorizontalAlignment="Left" Margin="3 0 0 0" Panel.ZIndex="2">
-
-                        </ComboBox>
-                        <TextBlock Margin="40,0,90,0" VerticalAlignment="Center" Foreground="#868686" Panel.ZIndex="1" IsHitTestVisible="False" Text="Search here..." Visibility="{Binding ElementName=txtMessage,Path=Text.IsEmpty,  Converter={StaticResource BooleanToVisibilityConverter}}" Height="24"  />
-                        <TextBox Margin="30,0,90,0" Style="{StaticResource messageTextbox}" Height="40" VerticalAlignment="Center"/>
-                    </Grid>
-                </Grid>
-
+                <Grid Width="500" HorizontalAlignment="Center" VerticalAlignment="Top">
+               
+                <ComboBox HorizontalAlignment="Left" Margin="3 0 0 0" Panel.ZIndex="2">
+                </ComboBox>
+                <TextBlock Margin="40,0,90,0" VerticalAlignment="Center" Foreground="#868686" Panel.ZIndex="1" IsHitTestVisible="False" Text="Search here..." Visibility="{Binding ElementName=txtMessage,Path=Text.IsEmpty,  Converter={StaticResource BooleanToVisibilityConverter}}" Height="24"  />
+                <TextBox Margin="30,0,90,0" Style="{StaticResource messageTextbox}" Height="40" VerticalAlignment="Center"/>
             </Grid>
-            
+            </StackPanel>
         </Border>
-
         <!--чат-->
         <Border  x:Name="BlockItems2" CornerRadius="15" Background="#fff" Grid.Column="3" Grid.Row="1" Margin="0 0 30 30" ClipToBounds="True" Visibility="Visible">
             <Grid>
