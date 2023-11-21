@@ -69,7 +69,11 @@
 
                                 <!-- Крутые кнопки -->
                                 <StackPanel Margin="25 160 0 0">
+<<<<<<< HEAD
                                     <uc:MenuButton x:Name="FriendsBtn" Title="friends" Icon="Contacts" MouseLeftButtonDown="FriendsBtn_MouseLeftButtonDown" Loaded="FriendsBtn_Loaded" Cursor="Hand"/>
+=======
+                                    <uc:MenuButton x:Name="FriendsBtn" Title="friends" Icon="Contacts"  MouseLeftButtonDown="FriendsBtn_MouseLeftButtonDown" Loaded="FriendsBtn_Loaded" Cursor="Hand" Padding="5"/>
+>>>>>>> origin/okno
                                     <uc:MenuButton x:Name="MessageBtn" Title="messsege" Icon="MessageOutline" IsActive="True" MouseLeftButtonDown="MessageBtn_MouseLeftButtonDown" Loaded="MessageBtn_Loaded" Cursor="Hand"/>
                                 </StackPanel>
                                 <StackPanel Margin="25 0 0 100" VerticalAlignment="Bottom">
@@ -86,7 +90,13 @@
         <!--верхняя часть-->
         <Grid Grid.Column="2" Grid.ColumnSpan="2" Margin="40 30">
             <!--поиск-->
-
+            <Grid Width="500" HorizontalAlignment="Left" >
+                <ComboBox HorizontalAlignment="Left" Margin="3 0 0 0" Panel.ZIndex="2">
+                    
+                </ComboBox>
+                <TextBlock Margin="40,0,90,0" VerticalAlignment="Center" Foreground="#868686" Panel.ZIndex="1" IsHitTestVisible="False" Text="Search here..." Visibility="{Binding ElementName=txtMessage,Path=Text.IsEmpty,  Converter={StaticResource BooleanToVisibilityConverter}}" Height="24"  />
+                <TextBox Margin="30,0,90,0" Style="{StaticResource messageTextbox}" Height="40" VerticalAlignment="Center"/>
+            </Grid>
         </Grid>
 
         <!--Chat Items Section-->
