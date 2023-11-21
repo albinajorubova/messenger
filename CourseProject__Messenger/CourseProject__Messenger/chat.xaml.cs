@@ -13,13 +13,14 @@ namespace CourseProject__Messenger
     /// </summary>
     public partial class chat : Window
     {
-       
 
+    
         public chat()
         {
             InitializeComponent();
-
+            this.DataContext = authorization.CurrentUser;
         }
+     
         private void MenuButton_Loaded(object sender, RoutedEventArgs e)
         {
           
@@ -32,6 +33,7 @@ namespace CourseProject__Messenger
         {
             // Логика для кнопки сообщений
             friendsListControl.Visibility = Visibility.Visible;
+            FriendsItem2.Visibility = Visibility.Visible;
             BlockItems.Visibility = Visibility.Collapsed;
             BlockItems2.Visibility = Visibility.Collapsed;
             FriendsBtn.IsActive = true ;
@@ -43,6 +45,7 @@ namespace CourseProject__Messenger
         {
             // Логика для кнопки друзей
             friendsListControl.Visibility = Visibility.Collapsed;
+            FriendsItem2.Visibility = Visibility.Collapsed;
             BlockItems.Visibility = Visibility.Visible;
             BlockItems2.Visibility = Visibility.Visible;
             FriendsBtn.IsActive = false;
@@ -100,7 +103,14 @@ namespace CourseProject__Messenger
 
             }
         }
-
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {     
+            if (Application.Current.Properties["CurrentUser"] is User currentUser)
+            {             
+                TabItem tab = new TabItem();
+                tab.Header = currentUser.UserName;       
+            }
+        }
         private void FriendsBtn_Loaded(object sender, RoutedEventArgs e)
         {
       
@@ -114,6 +124,17 @@ namespace CourseProject__Messenger
         private void Item_Loaded(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void MenuButton_Loaded_1(object sender, RoutedEventArgs e)
+        {
+           
+                // Удаление данных о пользователе при выходе
+                Application.Current.Properties.Remove("CurrentUser");
+                MainWindow newWindow = new MainWindow();
+                this.Close();
+                newWindow.Show();
+          
         }
     }
 

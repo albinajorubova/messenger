@@ -1,33 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using MySql.Data.MySqlClient;
 using BCrypt.Net;
-using static CourseProject__Messenger.Hash;
+using CourseProject__Messenger.usercontrols;
 
 namespace CourseProject__Messenger
 {
-    /// <summary>
-    /// Логика взаимодействия для authorization.xaml
-    /// </summary>
     public partial class authorization : Window
     {
+        // Объект, хранящий информацию о текущем пользователе
+        public static Usercontrols CurrentUser { get; private set; }
 
-        string connectionString = "Server=sql11.freesqldatabase.com;Database=sql11657900;User ID=sql11657900;Password=SC7ljfmGqs;Port=3306;";
+        string connectionString = "Server=127.0.0.1;Port=3306;Database=messenger;Uid=root;";
+
         public authorization()
         {
             InitializeComponent();
-         
         }
 
         private bool AuthenticateUser(string email, string password)
@@ -35,13 +23,22 @@ namespace CourseProject__Messenger
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
-                using (MySqlCommand command = new MySqlCommand("SELECT pass FROM users WHERE email = @email", connection))
+                using (MySqlCommand command = new MySqlCommand("SELECT Password, UserName FROM Users WHERE Email = @Email", connection))
                 {
-                    command.Parameters.AddWithValue("@email", email);
-                    var hashedPasswordFromDatabase = command.ExecuteScalar() as string; // Получаем хеш пароля из базы данных
-                    if (hashedPasswordFromDatabase != null && PasswordHasher.VerifyPassword(hashedPasswordFromDatabase, password))
+                    command.Parameters.AddWithValue("@Email", email);
+                    var reader = command.ExecuteReader();
+
+                    if (reader.Read())
                     {
-                        return true; // Пароль верный, пользователь аутентифицирован
+                        var hashedPasswordFromDatabase = reader["Password"] as string;
+                        var username = reader["UserName"] as string;
+
+                        if (hashedPasswordFromDatabase != null && BCrypt.Net.BCrypt.Verify(password, hashedPasswordFromDatabase))
+                        {
+                            // Создаем объект пользователя при успешной аутентификации
+                            CurrentUser = new Usercontrols(email, username);
+                            return true; // Пароль верный, пользователь аутентифицирован
+                        }
                     }
                 }
             }
@@ -56,7 +53,7 @@ namespace CourseProject__Messenger
             if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(password))
             {
                 MessageBox.Show("Пожалуйста, введите email и пароль.");
-                return; // Завершаем метод, не продолжая с аутентификацией
+                return;
             }
 
             if (AuthenticateUser(email, password))

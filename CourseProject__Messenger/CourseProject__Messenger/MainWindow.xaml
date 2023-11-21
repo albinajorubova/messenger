@@ -71,7 +71,7 @@
             <Button Style="{StaticResource RoundButtonTemplate}" Content="Войти в аккаунт" Width="170" Height="45" Margin="0,10" Click="Button_Click_1"/>
         </StackPanel>
         <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="252,0,0,0">
-            <Image Width="248" Source="C:\Users\stud305\source\repos\messenger\img\3.jpg">
+            <Image Width="248" Source="pack://application:,,,/CourseProject__Messenger;component/img/3.jpg">
                 <Image.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -81,7 +81,7 @@
                     </TransformGroup>
                 </Image.RenderTransform>
             </Image>
-            <Image Width="254" Source="C:\Users\stud305\source\repos\messenger\img\4.jpg">
+            <Image Width="254" Source="pack://application:,,,/CourseProject__Messenger;component/img/4.jpg">
                 <Image.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -91,7 +91,7 @@
                     </TransformGroup>
                 </Image.RenderTransform>
             </Image>
-            <Image Width="278" Source="C:\Users\stud305\source\repos\messenger\img\5.jpg" Margin="0,20">
+            <Image Width="278" Source="pack://application:,,,/CourseProject__Messenger;component/img/5.jpg" Margin="0,20">
                 <Image.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>

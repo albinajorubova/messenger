@@ -1,16 +1,15 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
+using System.Text.RegularExpressions;
 using System.Windows;
-using System.Windows.Controls;
 using BCrypt.Net;
-using static CourseProject__Messenger.Hash;
 
 namespace CourseProject__Messenger
 {
     public partial class registration : Window
     {
-        string connectionString = "Server=sql11.freesqldatabase.com;Database=sql11657900;User ID=sql11657900;Password=SC7ljfmGqs;Port=3306;";
-        string insertQuery = "INSERT INTO users (nikname, email, pass) VALUES (@nikname, @email, @pass)";
+        string connectionString = "Server=127.0.0.1;Port=3306;Database=messenger;Uid=root;";
+        string insertQuery = "INSERT INTO Users (Name, Email, ProfilePhoto, Password) VALUES (@Name, @Email, NULL, @Password)";
 
         public registration()
         {
@@ -22,13 +21,19 @@ namespace CourseProject__Messenger
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
-                using (MySqlCommand command = new MySqlCommand("SELECT COUNT(*) FROM users WHERE email = @email", connection))
+                using (MySqlCommand command = new MySqlCommand("SELECT COUNT(*) FROM Users WHERE Email = @Email", connection))
                 {
-                    command.Parameters.AddWithValue("@email", email);
+                    command.Parameters.AddWithValue("@Email", email);
                     int count = Convert.ToInt32(command.ExecuteScalar());
                     return count > 0;
                 }
             }
+        }
+
+        private bool IsValidEmail(string email)
+        {
+            string pattern = @"^\w+([-+.']\w+)*@(?:[a-zA-Z0-9]+\.)+[a-zA-Z]{2,}$";
+            return Regex.IsMatch(email, pattern);
         }
 
         private bool IsStrongPassword(string password)
@@ -41,33 +46,46 @@ namespace CourseProject__Messenger
         {
             string login = txtLogin.Text;
             string email = txtEmail.Text;
-            string password = txtPass.Password;
+            string enteredPassword = txtPass.Password;
+
+            if (string.IsNullOrWhiteSpace(login) || string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(enteredPassword))
+            {
+                MessageBox.Show("Заполните все поля.");
+                return;
+            }
 
             if (IsEmailExists(email))
             {
                 MessageBox.Show("Этот email уже зарегистрирован.");
+                return;
             }
-            else if (!IsStrongPassword(password))
+
+            if (!IsValidEmail(email))
+            {
+                MessageBox.Show("Введите действительный адрес электронной почты.");
+                return;
+            }
+
+            if (!IsStrongPassword(enteredPassword))
             {
                 MessageBox.Show("Пароль слишком слабый. Используйте более сложный пароль.");
+                return;
             }
-            else
-            {
-                string hashedPassword = PasswordHasher.HashPassword(password); // Хешируем пароль с использованием класса Hash
 
-                using (MySqlConnection connection = new MySqlConnection(connectionString))
+            string hashedPassword = BCrypt.Net.BCrypt.HashPassword(enteredPassword);
+
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+                using (MySqlCommand command = new MySqlCommand(insertQuery, connection))
                 {
-                    connection.Open();
-                    using (MySqlCommand command = new MySqlCommand(insertQuery, connection))
-                    {
-                        command.Parameters.AddWithValue("@nikname", login);
-                        command.Parameters.AddWithValue("@email", email);
-                        command.Parameters.AddWithValue("@pass", hashedPassword); // Сохраняем хеш пароля
-                        command.ExecuteNonQuery();
-                    }
-                    connection.Close();
-                    MessageBox.Show("Регистрация успешно завершена!");
+                    command.Parameters.AddWithValue("@Name", login);
+                    command.Parameters.AddWithValue("@Email", email);
+                    command.Parameters.AddWithValue("@Password", hashedPassword);
+                    command.ExecuteNonQuery();
                 }
+                connection.Close();
+                MessageBox.Show("Регистрация успешно завершена!");
             }
         }
 

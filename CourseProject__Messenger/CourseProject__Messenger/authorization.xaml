@@ -66,7 +66,7 @@
         </Border>
         <StackPanel Orientation="Horizontal">
             <StackPanel Width="430">
-                <Image Source="C:\Users\stud305\source\repos\messenger\CourseProject__Messenger\img\ICON4803.png"  Stretch="Fill" Margin="0 80" Width="419" Height="308"/>
+                <Image Source="pack://application:,,,/CourseProject__Messenger;component/img/ICON4803.png"  Stretch="Fill" Margin="0 80" Width="419" Height="308"/>
             </StackPanel>
             <StackPanel Width="400">
                 <StackPanel Margin="0 100 30 90" Height="280" Width="360" >
