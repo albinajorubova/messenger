@@ -8,7 +8,9 @@ namespace CourseProject__Messenger.usercontrols
 {
     internal class User
     {
+        public string UserName { get; set; }
     }
+
     public class Usercontrols
     {
         public string Email { get; set; }

@@ -14,11 +14,22 @@ namespace CourseProject__Messenger
     public partial class chat : Window
     {
 
-    
+        public Usercontrols CurrentUser { get; set; }
         public chat()
         {
             InitializeComponent();
             this.DataContext = authorization.CurrentUser;
+            if (CurrentUser != null)
+            {
+                // Создаем новый TabItem
+                TabItem tab = new TabItem();
+
+                // Устанавливаем имя пользователя в качестве Header для TabItem
+                tab.Header = CurrentUser.UserName;
+
+                // Добавляем этот TabItem в TabControl (MainTabControl)
+                MainTabControl.Items.Add(tab);
+            }
         }
      
         private void MenuButton_Loaded(object sender, RoutedEventArgs e)
@@ -103,14 +114,7 @@ namespace CourseProject__Messenger
 
             }
         }
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {     
-            if (Application.Current.Properties["CurrentUser"] is User currentUser)
-            {             
-                TabItem tab = new TabItem();
-                tab.Header = currentUser.UserName;       
-            }
-        }
+     
         private void FriendsBtn_Loaded(object sender, RoutedEventArgs e)
         {
       

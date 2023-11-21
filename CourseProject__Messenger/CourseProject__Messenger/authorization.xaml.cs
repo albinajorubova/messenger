@@ -23,7 +23,7 @@ namespace CourseProject__Messenger
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
-                using (MySqlCommand command = new MySqlCommand("SELECT Password, UserName FROM Users WHERE Email = @Email", connection))
+                using (MySqlCommand command = new MySqlCommand("SELECT Password, Name FROM Users WHERE Email = @Email", connection))
                 {
                     command.Parameters.AddWithValue("@Email", email);
                     var reader = command.ExecuteReader();
@@ -31,7 +31,7 @@ namespace CourseProject__Messenger
                     if (reader.Read())
                     {
                         var hashedPasswordFromDatabase = reader["Password"] as string;
-                        var username = reader["UserName"] as string;
+                        var username = reader["Name"] as string;
 
                         if (hashedPasswordFromDatabase != null && BCrypt.Net.BCrypt.Verify(password, hashedPasswordFromDatabase))
                         {
@@ -59,6 +59,7 @@ namespace CourseProject__Messenger
             if (AuthenticateUser(email, password))
             {
                 chat newWindow = new chat();
+                newWindow.CurrentUser = CurrentUser; // Передача объекта CurrentUser в новое окно chat
                 this.Close();
                 newWindow.Show();
             }

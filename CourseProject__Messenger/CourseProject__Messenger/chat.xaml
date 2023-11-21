@@ -139,7 +139,7 @@
                              ContextMenu="{StaticResource ContextMenuDelete}"/>
                 </StackPanel>
                 <StackPanel Margin="30,0,15,0" x:Name="friendsListControl" PreviewMouseRightButtonDown="BlockItems_PreviewMouseRightButtonDown" Visibility="Collapsed" Height="770" VerticalAlignment="Bottom">
-                    <TextBlock Text="Chats"
+                    <TextBlock Text="Friends"
                                
                                Style="{StaticResource textTitle}"
                                Margin="25 15 0 5" />
