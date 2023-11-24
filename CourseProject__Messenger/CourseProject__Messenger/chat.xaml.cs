@@ -5,6 +5,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace CourseProject__Messenger
 {
@@ -18,20 +20,67 @@ namespace CourseProject__Messenger
         public chat()
         {
             InitializeComponent();
+            LoadUserData(); // Загрузка данных о пользователе при запуске
             this.DataContext = authorization.CurrentUser;
+            // Создаем вкладку с именем пользователя
             if (CurrentUser != null)
             {
-                // Создаем новый TabItem
                 TabItem tab = new TabItem();
-
-                // Устанавливаем имя пользователя в качестве Header для TabItem
                 tab.Header = CurrentUser.UserName;
-
-                // Добавляем этот TabItem в TabControl (MainTabControl)
                 MainTabControl.Items.Add(tab);
+
+                // Получаем список друзей из базы данных
+                Usercontrols userControls = new Usercontrols(CurrentUser.Email, CurrentUser.UserName);
+                List<string> friends = userControls.GetFriendsList();
+
+                // Создаем элементы uc:Item для каждого друга и добавляем их в StackPanel friendsListControl
+                foreach (string friend in friends)
+                {
+                uc: Item friendItem = new uc:Item();
+                    friendItem.Title = friend;
+                    friendItem.ContextMenu = this.Resources["ContextMenuFriends"] as ContextMenu; // Подставьте свойство ContextMenu, если нужно
+
+                    // Добавляем элемент в StackPanel friendsListControl
+                    friendsListControl.Children.Add(friendItem);
+                }
+            }
+        
+    }
+        public void SetTabItemHeader(string username)
+        {
+            if (CurrentUser != null)
+            {
+                TabItem existingTab = MainTabControl.Items.Cast<TabItem>().FirstOrDefault(tab => tab.Header.ToString() == username);
+
+                if (existingTab != null)
+                {
+                    existingTab.Header = username;
+                }
+                else
+                {
+                    TabItem tab = new TabItem();
+                    tab.Header = username;
+                    MainTabControl.Items.Add(tab);
+                }
             }
         }
-     
+
+        private void LoadUserData()
+        {
+            string userDataFilePath = @"C:\Users\lenovo\source\repos\messenger\userdata.txt";
+
+            if (System.IO.File.Exists(userDataFilePath))
+            {
+                string userData = System.IO.File.ReadAllText(userDataFilePath);
+                string[] userDataArray = userData.Split(',');
+
+                if (userDataArray.Length == 2)
+                {
+                    CurrentUser = new Usercontrols(userDataArray[0], userDataArray[1]);
+                    // Здесь можно установить текущего пользователя в чате или других местах
+                }
+            }
+        }
         private void MenuButton_Loaded(object sender, RoutedEventArgs e)
         {
           
@@ -129,16 +178,22 @@ namespace CourseProject__Messenger
         {
 
         }
+        private void SaveUserData()
+        {
+            // Ваш код сохранения данных о пользователе в файл
+            string userDataFilePath = @"C:\Users\lenovo\source\repos\messenger\userdata.txt";
+            string userData = $"{CurrentUser.Email},{CurrentUser.UserName}";
 
+            System.IO.File.WriteAllText(userDataFilePath, userData);
+        }
         private void MenuButton_Loaded_1(object sender, RoutedEventArgs e)
         {
-           
-                // Удаление данных о пользователе при выходе
-                Application.Current.Properties.Remove("CurrentUser");
-                MainWindow newWindow = new MainWindow();
-                this.Close();
-                newWindow.Show();
-          
+
+            SaveUserData(); // Сохранение данных о пользователе при выходе
+            MainWindow newWindow = new MainWindow();
+            this.Close();
+            newWindow.Show();
+
         }
     }
 

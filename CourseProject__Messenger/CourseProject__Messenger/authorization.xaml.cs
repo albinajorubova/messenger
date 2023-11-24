@@ -3,6 +3,7 @@ using System.Windows;
 using MySql.Data.MySqlClient;
 using BCrypt.Net;
 using CourseProject__Messenger.usercontrols;
+using System.Windows.Controls;
 
 namespace CourseProject__Messenger
 {
@@ -16,6 +17,7 @@ namespace CourseProject__Messenger
         public authorization()
         {
             InitializeComponent();
+          
         }
 
         private bool AuthenticateUser(string email, string password)
@@ -37,6 +39,26 @@ namespace CourseProject__Messenger
                         {
                             // Создаем объект пользователя при успешной аутентификации
                             CurrentUser = new Usercontrols(email, username);
+
+                            // Проверяем, открыто ли уже окно чата
+                            if (Application.Current.Windows.Count == 1 && Application.Current.Windows[0] is chat)
+                            {
+                                var chatWindow = Application.Current.Windows[0] as chat;
+                                chatWindow.CurrentUser = CurrentUser; // Передаем объект CurrentUser в уже открытое окно
+                                chatWindow.SetTabItemHeader(username); // Передаем имя пользователя для установки заголовка TabItem
+                            }
+                            else
+                            {
+                                // Открываем новое окно чата и устанавливаем имя пользователя в качестве заголовка TabItem
+                                chat newWindow = new chat();
+                                newWindow.CurrentUser = CurrentUser;
+                                newWindow.SetTabItemHeader(username); // Передаем имя пользователя для установки заголовка TabItem
+                                newWindow.Show();
+                            }
+
+                            SaveUserData(); // Сохраняем данные о пользователе в файл
+                            this.Close(); // Закрываем окно авторизации
+
                             return true; // Пароль верный, пользователь аутентифицирован
                         }
                     }
@@ -56,14 +78,7 @@ namespace CourseProject__Messenger
                 return;
             }
 
-            if (AuthenticateUser(email, password))
-            {
-                chat newWindow = new chat();
-                newWindow.CurrentUser = CurrentUser; // Передача объекта CurrentUser в новое окно chat
-                this.Close();
-                newWindow.Show();
-            }
-            else
+            if (!AuthenticateUser(email, password))
             {
                 MessageBox.Show("Неверный email или пароль.");
             }
@@ -74,6 +89,14 @@ namespace CourseProject__Messenger
             MainWindow newWindow = new MainWindow();
             this.Close();
             newWindow.Show();
+        }
+
+        private void SaveUserData()
+        {
+            string userDataFilePath = @"C:\Users\lenovo\source\repos\messenger\userdata.txt";
+            string userData = $"{CurrentUser.Email},{CurrentUser.UserName}";
+
+            System.IO.File.WriteAllText(userDataFilePath, userData);
         }
     }
 }
