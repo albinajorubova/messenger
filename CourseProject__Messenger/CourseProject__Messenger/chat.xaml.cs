@@ -8,6 +8,7 @@ using System.Windows.Media;
 using System.Linq;
 using System.Collections.Generic;
 
+
 namespace CourseProject__Messenger
 {
     /// <summary>
@@ -17,53 +18,38 @@ namespace CourseProject__Messenger
     {
 
         public Usercontrols CurrentUser { get; set; }
+
         public chat()
         {
             InitializeComponent();
             LoadUserData(); // Загрузка данных о пользователе при запуске
             this.DataContext = authorization.CurrentUser;
-            // Создаем вкладку с именем пользователя
+            SetTextBlockUsername(CurrentUser?.UserName);
+
             if (CurrentUser != null)
             {
-                TabItem tab = new TabItem();
-                tab.Header = CurrentUser.UserName;
-                MainTabControl.Items.Add(tab);
-
                 // Получаем список друзей из базы данных
                 Usercontrols userControls = new Usercontrols(CurrentUser.Email, CurrentUser.UserName);
                 List<string> friends = userControls.GetFriendsList();
 
-                // Создаем элементы uc:Item для каждого друга и добавляем их в StackPanel friendsListControl
                 foreach (string friend in friends)
                 {
-                uc: Item friendItem = new uc:Item();
+                    var friendItem = new CourseProject__Messenger.usercontrols.Item();
                     friendItem.Title = friend;
                     friendItem.ContextMenu = this.Resources["ContextMenuFriends"] as ContextMenu; // Подставьте свойство ContextMenu, если нужно
-
-                    // Добавляем элемент в StackPanel friendsListControl
                     friendsListControl.Children.Add(friendItem);
                 }
             }
-        
-    }
-        public void SetTabItemHeader(string username)
-        {
-            if (CurrentUser != null)
-            {
-                TabItem existingTab = MainTabControl.Items.Cast<TabItem>().FirstOrDefault(tab => tab.Header.ToString() == username);
+        }
 
-                if (existingTab != null)
-                {
-                    existingTab.Header = username;
-                }
-                else
-                {
-                    TabItem tab = new TabItem();
-                    tab.Header = username;
-                    MainTabControl.Items.Add(tab);
-                }
+        public void SetTextBlockUsername(string username)
+        {
+            if (NameTitle != null)
+            {
+                NameTitle.Text = username;
             }
         }
+
 
         private void LoadUserData()
         {

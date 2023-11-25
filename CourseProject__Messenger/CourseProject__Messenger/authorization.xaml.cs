@@ -45,14 +45,14 @@ namespace CourseProject__Messenger
                             {
                                 var chatWindow = Application.Current.Windows[0] as chat;
                                 chatWindow.CurrentUser = CurrentUser; // Передаем объект CurrentUser в уже открытое окно
-                                chatWindow.SetTabItemHeader(username); // Передаем имя пользователя для установки заголовка TabItem
+                                chatWindow.SetTextBlockUsername(username); // Передаем имя пользователя для установки заголовка TabItem
                             }
                             else
                             {
                                 // Открываем новое окно чата и устанавливаем имя пользователя в качестве заголовка TabItem
                                 chat newWindow = new chat();
                                 newWindow.CurrentUser = CurrentUser;
-                                newWindow.SetTabItemHeader(username); // Передаем имя пользователя для установки заголовка TabItem
+                                newWindow.SetTextBlockUsername(username); // Заменяем вызов SetTabItemHeader на SetTextBlockUsername
                                 newWindow.Show();
                             }
 
