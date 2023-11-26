@@ -17,24 +17,65 @@ namespace CourseProject__Messenger.usercontrols
             Email = email;
             UserName = userName;
         }
-
-        public List<string> GetFriendsList()
+        private List<string> SearchUsersByEmail(string searchQuery)
         {
-            List<string> friendsList = new List<string>();
+            List<string> searchResults = new List<string>();
 
             try
             {
-                // Здесь используйте вашу строку подключения к базе данных
                 string connectionString = "Server=127.0.0.1;Port=3306;Database=messenger;Uid=root;";
-
                 using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
                     connection.Open();
 
-                    // Получение списка друзей пользователя по его электронной почте
+                    string searchUsersQuery = "SELECT Email FROM Users WHERE Email LIKE @SearchQuery";
+                    MySqlCommand searchUsersCommand = new MySqlCommand(searchUsersQuery, connection);
+                    searchUsersCommand.Parameters.AddWithValue("@SearchQuery", $"%{searchQuery}%");
+
+                    using (MySqlDataReader reader = searchUsersCommand.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            string userEmail = reader.GetString(0);
+                            searchResults.Add(userEmail);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка поиска пользователей: {ex.Message}");
+            }
+
+            return searchResults;
+        }
+        public string GetInitials(string name)
+        {
+            string[] parts = name.Split(' ');
+            if (parts.Length > 1)
+            {
+                return $"{parts[0][0]}{parts[1][0]}";
+            }
+            else
+            {
+                return $"{parts[0][0]}";
+            }
+        }
+
+        public List<(string, string)> GetFriendsList(string email)
+        {
+            List<(string, string)> friendsList = new List<(string, string)>();
+
+            try
+            {
+                string connectionString = "Server=127.0.0.1;Port=3306;Database=messenger;Uid=root;";
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
+                    connection.Open();
+
                     string getUserIdQuery = "SELECT UserID FROM Users WHERE Email = @Email";
                     MySqlCommand getUserIdCommand = new MySqlCommand(getUserIdQuery, connection);
-                    getUserIdCommand.Parameters.AddWithValue("@Email", Email);
+                    getUserIdCommand.Parameters.AddWithValue("@Email", email);
                     object userIdResult = getUserIdCommand.ExecuteScalar();
 
                     if (userIdResult != null)
@@ -50,13 +91,15 @@ namespace CourseProject__Messenger.usercontrols
                             while (reader.Read())
                             {
                                 string friendName = reader.GetString(0);
-                                friendsList.Add(friendName);
+                                string initials = GetInitials(friendName);
+
+                                friendsList.Add((friendName, initials));
                             }
                         }
                     }
                     else
                     {
-                        Console.WriteLine($"Пользователь с почтой {Email} не найден.");
+                        Console.WriteLine($"Пользователь с почтой {email} не найден.");
                     }
                 }
             }
@@ -69,3 +112,4 @@ namespace CourseProject__Messenger.usercontrols
         }
     }
 }
+

@@ -7,7 +7,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Linq;
 using System.Collections.Generic;
-
+using MySql.Data.MySqlClient;
 
 namespace CourseProject__Messenger
 {
@@ -19,29 +19,45 @@ namespace CourseProject__Messenger
 
         public Usercontrols CurrentUser { get; set; }
 
+        public string Email { get; set; }
+        public string UserName { get; set; }
+
+
         public chat()
         {
             InitializeComponent();
-            LoadUserData(); // Загрузка данных о пользователе при запуске
+            LoadUserData();
             this.DataContext = authorization.CurrentUser;
             SetTextBlockUsername(CurrentUser?.UserName);
 
             if (CurrentUser != null)
             {
-                // Получаем список друзей из базы данных
-                Usercontrols userControls = new Usercontrols(CurrentUser.Email, CurrentUser.UserName);
-                List<string> friends = userControls.GetFriendsList();
+                Usercontrols userControls = new Usercontrols(CurrentUser.Email, CurrentUser.UserName); // Передача адреса электронной почты и имени пользователя при создании экземпляра Usercontrols
+                List<(string name, string initials)> friends = userControls.GetFriendsList(CurrentUser.Email); // Передача адреса электронной почты для получения списка друзей
 
-                foreach (string friend in friends)
+                foreach (var friend in friends)
                 {
                     var friendItem = new CourseProject__Messenger.usercontrols.Item();
-                    friendItem.Title = friend;
-                    friendItem.ContextMenu = this.Resources["ContextMenuFriends"] as ContextMenu; // Подставьте свойство ContextMenu, если нужно
+                    friendItem.Title = friend.name;
+                    friendItem.TagName = userControls.GetInitials(friend.name); // Получение инициалов друга
+                    friendItem.ContextMenu = this.Resources["ContextMenuFriends"] as ContextMenu;
                     friendsListControl.Children.Add(friendItem);
                 }
             }
         }
-
+        public string GetInitials(string name)
+        {
+            string[] parts = name.Split(' ');
+            if (parts.Length > 1)
+            {
+                return $"{parts[0][0]}{parts[1][0]}";
+            }
+            else
+            {
+                return $"{parts[0][0]}";
+            }
+        }
+      
         public void SetTextBlockUsername(string username)
         {
             if (NameTitle != null)
@@ -117,6 +133,10 @@ namespace CourseProject__Messenger
         {
             // Обработчик события "удалить друга"
         }
+        private void NewFriendMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            // Обработчик события "добавить друга"
+        }
         private void BlockItems_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             // Обработчик события
@@ -181,6 +201,75 @@ namespace CourseProject__Messenger
             newWindow.Show();
 
         }
+ 
+        private List<string> SearchUsersByEmail(string searchQuery)
+        {
+            List<string> searchResults = new List<string>();
+
+            try
+            {
+                string connectionString = "Server=127.0.0.1;Port=3306;Database=messenger;Uid=root;";
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
+                    connection.Open();
+
+                    string searchUsersQuery = "SELECT Name, Email FROM Users WHERE Email LIKE @SearchQuery";
+                    MySqlCommand searchUsersCommand = new MySqlCommand(searchUsersQuery, connection);
+                    searchUsersCommand.Parameters.AddWithValue("@SearchQuery", $"%{searchQuery}%");
+
+                    using (MySqlDataReader reader = searchUsersCommand.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            string userName = reader.GetString(0);
+                            string userEmail = reader.GetString(1);
+
+                            // Собираем информацию в один блок текста
+                            string userInfo = $"{userName}\n{userEmail}";
+
+                            searchResults.Add(userInfo); // Добавляем информацию о пользователе в список
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка поиска пользователей: {ex.Message}");
+            }
+
+            return searchResults;
+        }
+
+        private void searchTextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            searchTextBox.Text = ""; // Очищаем содержимое при фокусировке
+        }
+        private void searchTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string searchText = searchTextBox.Text.Trim();
+
+            if (!string.IsNullOrEmpty(searchText))
+            {
+                List<string> searchResults = SearchUsersByEmail(searchText);
+
+                resultsListBox.Items.Clear();
+
+                foreach (string result in searchResults)
+                {
+                    resultsListBox.Items.Add(result);
+                }
+            }
+            else
+            {
+                resultsListBox.Items.Clear();
+            }
+        }
+
+        private void SearchButton_Click(object sender, RoutedEventArgs e)
+        {
+           
+        }
+
     }
 
 }
