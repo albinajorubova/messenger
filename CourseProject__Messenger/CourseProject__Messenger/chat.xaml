@@ -142,7 +142,7 @@
 
                     <!--Person Items-->
 
-                    <uc:Item Title="Reza Asadi"                        
+                    <!--<uc:Item Title="Reza Asadi"                        
                              ContextMenu="{StaticResource ContextMenuFriends}"
                              Image="pack://application:,,,/CourseProject__Messenger;component/img/review2.jpg"/>
 
@@ -159,7 +159,7 @@
                              ContextMenu="{StaticResource ContextMenuFriends}"/>
                     <uc:Item Title="Cole Strickland"                           
                              ContextMenu="{StaticResource ContextMenuFriends}"
-                             Image="pack://application:,,,/CourseProject__Messenger;component/img/review1.jpg"/>
+                             Image="pack://application:,,,/CourseProject__Messenger;component/img/review1.jpg"/>-->
                 </StackPanel>
 
             </Grid>
