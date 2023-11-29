@@ -25,6 +25,7 @@ namespace CourseProject__Messenger
         public chat()
         {
             InitializeComponent();
+            LoadUsersFromDatabase();
             LoadUserData();
             this.DataContext = authorization.CurrentUser;
             SetTextBlockUsername(CurrentUser?.UserName);
@@ -149,10 +150,6 @@ namespace CourseProject__Messenger
         private void MenuButton_Loaded_3(object sender, RoutedEventArgs e)
         {
         }
-        private void Item_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            // Обработчик события
-        }
         private void DeleteMenuItem_Click(object sender, RoutedEventArgs e)
         {
             // Обработчик события "удалить диалог"
@@ -258,7 +255,7 @@ namespace CourseProject__Messenger
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Ошибка получения UserID: {ex.Message}");
+                MessageBox.Show($"Ошибка получения UserID: {ex.Message}");
             }
 
             return userId;
@@ -332,9 +329,26 @@ namespace CourseProject__Messenger
             newWindow.Show();
 
         }
-        private List<Item> SearchUsersByEmail(string searchQuery)
+
+
+        private void searchTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            List<Item> searchResults = new List<Item>();
+            string searchText = searchTextBox.Text.Trim();
+
+            if (!string.IsNullOrEmpty(searchText))
+            {
+                List<User> searchResults = SearchUsersByEmail(searchText);
+                resultsListBox.ItemsSource = searchResults;
+            }
+            else
+            {
+                LoadUsersFromDatabase();
+            }
+        }
+
+        private List<User> SearchUsersByEmail(string searchQuery)
+        {
+            List<User> searchResults = new List<User>();
 
             try
             {
@@ -354,94 +368,89 @@ namespace CourseProject__Messenger
                             string userName = reader.GetString("Name");
                             string userEmail = reader.GetString("Email");
 
-                            var friendItem = new Item();
-                            friendItem.Title = userName; // Установка имени пользователя в свойство Title
-                            friendItem.Email = userEmail; // Установка электронной почты в свойство Email
-                            searchResults.Add(friendItem);
+                            var user = new User { Name = userName, Email = userEmail };
+                            searchResults.Add(user);
                         }
                     }
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Ошибка поиска пользователей: {ex.Message}");
+                MessageBox.Show($"Ошибка поиска пользователей: {ex.Message}");
             }
 
             return searchResults;
         }
 
-
-
-        private void searchTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void LoadUsersFromDatabase()
         {
-            string searchText = searchTextBox.Text.Trim();
-
-            if (!string.IsNullOrEmpty(searchText))
+            try
             {
-                List<Item> searchResults = SearchUsersByEmail(searchText);
-
-                // Очищаем элементы ListBox перед добавлением новых результатов поиска
-                resultsListBox.Items.Clear();
-                foreach (var friendItem in searchResults)
+                string connectionString = "Server=127.0.0.1;Port=3306;Database=messenger;Uid=root;";
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
-                    MenuItem addFriendMenuItem = new MenuItem();
-                    addFriendMenuItem.Header = "Добавить в друзья";
-                    addFriendMenuItem.Click += (menuSender, menuEventArgs) =>
+                    connection.Open();
+
+                    string getUsersQuery = "SELECT Name, Email FROM Users";
+                    MySqlCommand getUsersCommand = new MySqlCommand(getUsersQuery, connection);
+
+                    using (MySqlDataReader reader = getUsersCommand.ExecuteReader())
                     {
-                        if (AddFriendByEmail(CurrentUser.Email, friendItem.Email))
+                        List<User> users = new List<User>();
+
+                        while (reader.Read())
                         {
-                            // Если друг успешно добавлен, можно выполнить дополнительные действия, если необходимо
+                            string userName = reader.GetString("Name");
+                            string userEmail = reader.GetString("Email");
+
+                            var user = new User { Name = userName, Email = userEmail };
+                            users.Add(user);
                         }
-                    };
 
-                    ContextMenu contextMenu = new ContextMenu();
-                    contextMenu.Items.Add(addFriendMenuItem);
-
-                    friendItem.ContextMenu = contextMenu; // Установка контекстного меню для элемента
-
-                    resultsListBox.Items.Add(friendItem); // Добавление элемента в список результатов
+                        resultsListBox.ItemsSource = users;
+                    }
                 }
-
             }
-            else
+            catch (Exception ex)
             {
-                resultsListBox.Items.Clear(); // Очистка результатов поиска, если строка поиска пуста
+                MessageBox.Show($"Ошибка загрузки пользователей: {ex.Message}");
             }
         }
 
         private void AddFriendMenuItem_Click(object sender, RoutedEventArgs e)
         {
-           
+            if (resultsListBox.SelectedItem != null && resultsListBox.SelectedItem is User selectedUser)
+            {
+                AddFriend(selectedUser.Name, selectedUser.Email);
+            }
         }
 
-        private bool AddFriendByEmail(string userEmail, string friendEmail)
+        private void AddFriend(string friendName, string friendEmail)
         {
             try
             {
-                int userId = GetUserIDByEmail(userEmail);
+                int currentUserId = GetUserIDByEmail(CurrentUser.Email);
                 int friendUserId = GetUserIDByEmail(friendEmail);
 
-                if (userId != -1 && friendUserId != -1)
+                if (currentUserId != -1 && friendUserId != -1)
                 {
                     string connectionString = "Server=127.0.0.1;Port=3306;Database=messenger;Uid=root;";
                     using (MySqlConnection connection = new MySqlConnection(connectionString))
                     {
                         connection.Open();
 
-                        // Проверяем, не существует ли уже такой записи в таблице друзей
                         string checkFriendshipQuery = "SELECT COUNT(*) FROM Friends WHERE (UserID1 = @UserID1 AND UserID2 = @UserID2) OR (UserID1 = @UserID2 AND UserID2 = @UserID1)";
                         MySqlCommand checkFriendshipCommand = new MySqlCommand(checkFriendshipQuery, connection);
-                        checkFriendshipCommand.Parameters.AddWithValue("@UserID1", userId);
+                        checkFriendshipCommand.Parameters.AddWithValue("@UserID1", currentUserId);
                         checkFriendshipCommand.Parameters.AddWithValue("@UserID2", friendUserId);
 
                         int existingFriendshipCount = Convert.ToInt32(checkFriendshipCommand.ExecuteScalar());
 
                         if (existingFriendshipCount == 0)
                         {
-                            // Если записи о дружбе еще нет, добавляем новую запись в таблицу друзей
                             string addFriendQuery = "INSERT INTO Friends (UserID1, UserID2) VALUES (@UserID1, @UserID2)";
                             MySqlCommand addFriendCommand = new MySqlCommand(addFriendQuery, connection);
-                            addFriendCommand.Parameters.AddWithValue("@UserID1", userId);
+                            addFriendCommand.Parameters.AddWithValue("@UserID1", currentUserId);
                             addFriendCommand.Parameters.AddWithValue("@UserID2", friendUserId);
 
                             int rowsAffected = addFriendCommand.ExecuteNonQuery();
@@ -449,34 +458,42 @@ namespace CourseProject__Messenger
                             if (rowsAffected > 0)
                             {
                                 MessageBox.Show("Пользователь успешно добавлен в друзья.");
-                                return true;
+                                LoadUsersFromDatabase(); // Обновляем список после добавления друга
                             }
                         }
                         else
                         {
-                            MessageBox.Show("Данный пользователь уже является вашим другом.");
+                            MessageBox.Show("Этот пользователь уже является вашим другом.");
                         }
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Пользователь не найден.");
+                    MessageBox.Show("Ошибка при поиске пользователя.");
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Ошибка добавления друга: {ex.Message}");
             }
-
-            return false;
         }
 
-
-
-        private void SearchButton_Click(object sender, RoutedEventArgs e)
+        public class User
         {
-           
+            public string Name { get; set; }
+            public string Email { get; set; }
         }
+
+        private void Item_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Right)
+            {
+                // Активация контекстного меню
+                ContextMenu contextMenu = ((TextBlock)sender).ContextMenu;
+                contextMenu.IsOpen = true;
+            }
+        }
+
 
     }
 
