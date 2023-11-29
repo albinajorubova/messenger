@@ -177,18 +177,24 @@
                     <TextBox Padding="40, 0, 90,0" x:Name="searchTextBox" TextChanged="searchTextBox_TextChanged" Margin="30,0,90,0" Style="{StaticResource messageTextbox}" Height="40" VerticalAlignment="Center" VerticalContentAlignment="Center" Foreground="#000000"  />
                     <!-- Кнопка поиска справа -->                
                 </Grid>
-                <ListBox x:Name="resultsListBox" Margin="10">
-                    <ListBox.ItemContainerStyle>
-                        <Style TargetType="ListBoxItem">
-                            <Setter Property="ContextMenu" Value="{StaticResource ContextMenuNewFriends}" />
-                        </Style>
-                    </ListBox.ItemContainerStyle>
+                <ListBox x:Name="resultsListBox">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <uc:Item Title="{Binding}" />
+                            <StackPanel>
+                                <TextBlock Text="{Binding Name}" />
+                                <TextBlock Text="{Binding Email}" />
+                                <TextBlock Text="..." MouseRightButtonDown="Item_MouseRightButtonDown">
+                                    <TextBlock.ContextMenu>
+                                        <ContextMenu>
+                                            <MenuItem Header="Добавить в друзья" Click="AddFriendMenuItem_Click" />
+                                        </ContextMenu>
+                                    </TextBlock.ContextMenu>
+                                </TextBlock>
+                            </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
+
             </StackPanel>
         </Border>
 

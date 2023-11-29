@@ -23,6 +23,7 @@ namespace CourseProject__Messenger.usercontrols
         public Item()
         {
             InitializeComponent();
+            ContextMenu = new ContextMenu();
         }
         public string Title
         {
@@ -101,6 +102,6 @@ namespace CourseProject__Messenger.usercontrols
         }
 
         public static readonly DependencyProperty EmailProperty = DependencyProperty.Register("Email", typeof(string), typeof(Item));
-
+     
     }
 }
