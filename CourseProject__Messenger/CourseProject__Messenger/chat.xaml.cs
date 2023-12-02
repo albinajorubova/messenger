@@ -29,49 +29,132 @@ namespace CourseProject__Messenger
             LoadUserData();
             this.DataContext = authorization.CurrentUser;
             SetTextBlockUsername(CurrentUser?.UserName);
+            resultsListBox.ItemsSource = null;
+
+            LoadFriends(); // Вызываем метод для загрузки списка друзей с информацией о почте
+        }
+
+        private void LoadFriends()
+        {
+            friendsListControl.Children.Clear(); // Очищаем предыдущий список друзей перед обновлением
 
             if (CurrentUser != null)
             {
                 Usercontrols userControls = new Usercontrols(CurrentUser.Email, CurrentUser.UserName);
-                List<(string name, string initials)> friends = userControls.GetFriendsList(CurrentUser.Email);
+                List<Usercontrols.FriendInfo> friends = userControls.GetFriendsListWithInfo(CurrentUser.Email);
 
                 foreach (var friend in friends)
                 {
                     var friendItem = new CourseProject__Messenger.usercontrols.Item();
-                    friendItem.Title = friend.name;
-                    friendItem.TagName = friend.initials;
+                    friendItem.Title = friend.Name;
+                    friendItem.TagName = friend.Initials;
                     friendsListControl.Children.Add(friendItem);
+
+                    // Сохраняем почту друга в Tag элемента управления, чтобы использовать ее в будущем
+                    friendItem.Tag = friend.Email;
 
                     MenuItem deleteMenuItem = new MenuItem();
                     deleteMenuItem.Header = "Удалить друга";
-
-                    string friendName = friend.name; // Сохраняем имя друга в локальной переменной
-
-                    deleteMenuItem.Click += (sender, e) =>
-                    {
-                        // Отображение MessageBox для подтверждения удаления
-                        MessageBoxResult result = MessageBox.Show($"Действительно хотите удалить {friendName}?", "Удаление друга", MessageBoxButton.YesNo);
-
-                        if (result == MessageBoxResult.Yes)
-                        {
-                            // Вызываем метод RemoveFriendByName с именем друга
-                            if (RemoveFriendByEmail(friendName))
-                            {
-                                // Удаляем друга из списка
-                                friendsListControl.Children.Remove(friendItem);
-                            }
-                        }
-                    };
 
                     ContextMenu contextMenu = new ContextMenu();
                     contextMenu.Items.Add(deleteMenuItem);
 
                     friendItem.ContextMenu = contextMenu;
+
+                    // Привязываем обработчик события клика по пункту "Удалить друга"
+                    deleteMenuItem.Click += (sender, e) =>
+                    {
+                        if (friendItem.Tag != null && friendItem.Tag is string)
+                        {
+                            string emailToDelete = friendItem.Tag as string;
+                            DeleteFriend(emailToDelete); // Вызываем метод удаления друга
+                        }
+                    };
                 }
             }
         }
 
+        private void DeleteFriend(string friendEmail)
+        {
+            try
+            {
+                int currentUserId = GetUserIDByEmail(CurrentUser.Email);
+                int friendUserId = GetUserIDByEmail(friendEmail);
 
+                if (currentUserId != -1 && friendUserId != -1)
+                {
+                    MessageBoxResult result = MessageBox.Show($"Вы уверены, что хотите удалить друга с почтой {friendEmail}?", "Подтверждение удаления", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                    if (result == MessageBoxResult.Yes)
+                    {
+                        string connectionString = "Server=127.0.0.1;Port=3306;Database=messenger;Uid=root;";
+                        using (MySqlConnection connection = new MySqlConnection(connectionString))
+                        {
+                            connection.Open();
+
+                            string deleteFriendQuery = "DELETE FROM Friends WHERE (UserID1 = @CurrentUser AND UserID2 = @Friend) OR (UserID1 = @Friend AND UserID2 = @CurrentUser)";
+                            MySqlCommand deleteFriendCommand = new MySqlCommand(deleteFriendQuery, connection);
+                            deleteFriendCommand.Parameters.AddWithValue("@CurrentUser", currentUserId);
+                            deleteFriendCommand.Parameters.AddWithValue("@Friend", friendUserId);
+
+                            int rowsAffected = deleteFriendCommand.ExecuteNonQuery();
+
+                            if (rowsAffected > 0)
+                            {
+                                MessageBox.Show($"Друг с почтой {friendEmail} удален из списка друзей.");
+                                LoadFriends(); // Обновляем список друзей после удаления друга
+                            }
+                            else
+                            {
+                                MessageBox.Show($"Не удалось удалить друга с почтой {friendEmail}.");
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Ошибка при поиске пользователя.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при удалении друга: {ex.Message}");
+            }
+        }
+
+
+
+        public int GetUserID()
+        {
+            int UserID = -1; // Возвращаемое значение по умолчанию
+
+            try
+            {
+                string connectionString = "Server=127.0.0.1;Port=3306;Database=messenger;Uid=root;";
+
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
+                    connection.Open();
+
+                    string getUserIdQuery = "SELECT UserID FROM Users WHERE Email = @Email";
+                    MySqlCommand getUserIdCommand = new MySqlCommand(getUserIdQuery, connection);
+                    getUserIdCommand.Parameters.AddWithValue("@Email", Email);
+
+                    object result = getUserIdCommand.ExecuteScalar();
+
+                    if (result != null)
+                    {
+                        UserID = Convert.ToInt32(result);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Обработка ошибок, если таковые возникнут
+            }
+
+            return UserID;
+        }
 
         private void UserData()
         {
@@ -165,33 +248,42 @@ namespace CourseProject__Messenger
 
         private int GetUserIDByEmail(string email)
         {
-            int userId = -1; // Значение по умолчанию, если не найден
+        int userId = -1; // Значение по умолчанию, если не найден
 
-            try
+        try
+        {
+        string connectionString = "Server=127.0.0.1;Port=3306;Database=messenger;Uid=root;";
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            connection.Open();
+
+            string getUserIdQuery = "SELECT UserID FROM Users WHERE Email = @Email";
+            MySqlCommand getUserIdCommand = new MySqlCommand(getUserIdQuery, connection);
+            getUserIdCommand.Parameters.AddWithValue("@Email", email);
+
+            // Выводим SQL-запрос в консоль для отладки
+            Console.WriteLine($"SQL Query: {getUserIdCommand.CommandText}");
+
+            var result = getUserIdCommand.ExecuteScalar();
+            if (result != null)
             {
-                string connectionString = "Server=127.0.0.1;Port=3306;Database=messenger;Uid=root;";
-                using (MySqlConnection connection = new MySqlConnection(connectionString))
-                {
-                    connection.Open();
-
-                    string getUserIdQuery = "SELECT UserID FROM Users WHERE Email = @Email";
-                    MySqlCommand getUserIdCommand = new MySqlCommand(getUserIdQuery, connection);
-                    getUserIdCommand.Parameters.AddWithValue("@Email", email);
-
-                    var result = getUserIdCommand.ExecuteScalar();
-                    if (result != null)
-                    {
-                        userId = Convert.ToInt32(result);
-                    }
-                }
+                userId = Convert.ToInt32(result);
             }
+            else
+            {
+                MessageBox.Show($"UserID not found for Email: {email}");
+            }
+        }
+    }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка при получении UserID: {ex.Message}");
+        MessageBox.Show($"Ошибка при получении UserID: {ex.Message}");
+        // Выводим информацию об ошибке в консоль для отладки
+        Console.WriteLine(ex.StackTrace);
             }
 
-            return userId;
-        }
+        return userId;
+}
 
 
         private void NewFriendMenuItem_Click(object sender, RoutedEventArgs e)
@@ -246,64 +338,11 @@ namespace CourseProject__Messenger
 
         }
 
-        private void DeleteFriend(string friendEmail)
+
+        private int GetUserIDByName(string name)
         {
-            int currentUserId = GetUserIDByEmail(Email); // Получаем UserID текущего пользователя по его Email
+            int userId = -1; // Значение по умолчанию, если не найден
 
-            try
-            {
-                int friendUserId = GetUserIDByEmail(friendEmail); // Получаем UserID друга по его Email
-                if (friendUserId != -1)
-                {
-                    if (RemoveFriendshipByUserIDs(currentUserId, friendUserId))
-                    {
-                        // Удаляем друга из списка
-                        var friendItem = friendsListControl.Children.OfType<Item>()
-                                                        .FirstOrDefault(item => item.Email == friendEmail);
-                        if (friendItem != null)
-                        {
-                            friendsListControl.Children.Remove(friendItem);
-                        }
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Не удалось получить UserID друга.");
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Ошибка удаления друга: {ex.Message}");
-            }
-        }
-
-        private bool RemoveFriendByEmail(string friendEmail)
-        {
-            int currentUserId = GetUserIDByEmail(Email); // Получаем UserID текущего пользователя по его Email
-
-            try
-            {
-                int friendUserId = GetUserIDByEmail(friendEmail); // Получаем UserID друга по его Email
-                if (friendUserId != -1)
-                {
-                    return RemoveFriendshipByUserIDs(currentUserId, friendUserId);
-                }
-                else
-                {
-                    MessageBox.Show("Не удалось получить UserID друга.");
-                    return false;
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Ошибка удаления друга: {ex.Message}");
-                return false; // Ошибка при удалении
-            }
-        }
-
-
-        private bool RemoveFriendshipByUserIDs(int userId1, int userId2)
-        {
             try
             {
                 string connectionString = "Server=127.0.0.1;Port=3306;Database=messenger;Uid=root;";
@@ -311,24 +350,28 @@ namespace CourseProject__Messenger
                 {
                     connection.Open();
 
-                    string deleteFriendshipQuery = "DELETE FROM Friends WHERE (UserID1 = @UserID1 AND UserID2 = @UserID2) OR (UserID1 = @UserID2 AND UserID2 = @UserID1)";
-                    Console.WriteLine($"SQL Query: {deleteFriendshipQuery}");
-                    MySqlCommand deleteFriendshipCommand = new MySqlCommand(deleteFriendshipQuery, connection);
-                    deleteFriendshipCommand.Parameters.AddWithValue("@UserID1", userId1);
-                    deleteFriendshipCommand.Parameters.AddWithValue("@UserID2", userId2);
-                    deleteFriendshipCommand.ExecuteNonQuery();
+                    string getUserIdQuery = "SELECT UserID FROM Users WHERE Name = @Name";
+                    MySqlCommand getUserIdCommand = new MySqlCommand(getUserIdQuery, connection);
+                    getUserIdCommand.Parameters.AddWithValue("@Name", name);
 
-                    return true; // Успешно удалено
+                    var result = getUserIdCommand.ExecuteScalar();
+                    if (result != null)
+                    {
+                        userId = Convert.ToInt32(result);
+                    }
+                    else
+                    {
+                        MessageBox.Show($"UserID not found for Name: {name}");
+                    }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка при удалении дружбы: {ex.Message}");
-                MessageBox.Show($"Ошибка при удалении дружбы: {ex.StackTrace}");
-                return false; // Ошибка при удалении
+                MessageBox.Show($"Ошибка при получении UserID: {ex.Message}");
             }
-        }
 
+            return userId;
+        }
 
         private void SaveUserData()
         {
@@ -485,36 +528,41 @@ namespace CourseProject__Messenger
 
                 if (currentUserId != -1 && friendUserId != -1)
                 {
-                    string connectionString = "Server=127.0.0.1;Port=3306;Database=messenger;Uid=root;";
-                    using (MySqlConnection connection = new MySqlConnection(connectionString))
+                    MessageBoxResult result = MessageBox.Show($"Вы уверены, что хотите добавить пользователя {friendName} в друзья?", "Подтверждение добавления друга", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                    if (result == MessageBoxResult.Yes)
                     {
-                        connection.Open();
-
-                        string checkFriendshipQuery = "SELECT COUNT(*) FROM Friends WHERE (UserID1 = @UserID1 AND UserID2 = @UserID2) OR (UserID1 = @UserID2 AND UserID2 = @UserID1)";
-                        MySqlCommand checkFriendshipCommand = new MySqlCommand(checkFriendshipQuery, connection);
-                        checkFriendshipCommand.Parameters.AddWithValue("@UserID1", currentUserId);
-                        checkFriendshipCommand.Parameters.AddWithValue("@UserID2", friendUserId);
-
-                        int existingFriendshipCount = Convert.ToInt32(checkFriendshipCommand.ExecuteScalar());
-
-                        if (existingFriendshipCount == 0)
+                        string connectionString = "Server=127.0.0.1;Port=3306;Database=messenger;Uid=root;";
+                        using (MySqlConnection connection = new MySqlConnection(connectionString))
                         {
-                            string addFriendQuery = "INSERT INTO Friends (UserID1, UserID2) VALUES (@UserID1, @UserID2)";
-                            MySqlCommand addFriendCommand = new MySqlCommand(addFriendQuery, connection);
-                            addFriendCommand.Parameters.AddWithValue("@UserID1", currentUserId);
-                            addFriendCommand.Parameters.AddWithValue("@UserID2", friendUserId);
+                            connection.Open();
 
-                            int rowsAffected = addFriendCommand.ExecuteNonQuery();
+                            string checkFriendshipQuery = "SELECT COUNT(*) FROM Friends WHERE (UserID1 = @UserID1 AND UserID2 = @UserID2) OR (UserID1 = @UserID2 AND UserID2 = @UserID1)";
+                            MySqlCommand checkFriendshipCommand = new MySqlCommand(checkFriendshipQuery, connection);
+                            checkFriendshipCommand.Parameters.AddWithValue("@UserID1", currentUserId);
+                            checkFriendshipCommand.Parameters.AddWithValue("@UserID2", friendUserId);
 
-                            if (rowsAffected > 0)
+                            int existingFriendshipCount = Convert.ToInt32(checkFriendshipCommand.ExecuteScalar());
+
+                            if (existingFriendshipCount == 0)
                             {
-                                MessageBox.Show("Пользователь успешно добавлен в друзья.");
-                                LoadUsersFromDatabase(); // Обновляем список после добавления друга
+                                string addFriendQuery = "INSERT INTO Friends (UserID1, UserID2) VALUES (@UserID1, @UserID2)";
+                                MySqlCommand addFriendCommand = new MySqlCommand(addFriendQuery, connection);
+                                addFriendCommand.Parameters.AddWithValue("@UserID1", currentUserId);
+                                addFriendCommand.Parameters.AddWithValue("@UserID2", friendUserId);
+
+                                int rowsAffected = addFriendCommand.ExecuteNonQuery();
+
+                                if (rowsAffected > 0)
+                                {
+                                    MessageBox.Show("Пользователь успешно добавлен в друзья.");
+                                    LoadFriends(); // Обновляем список друзей после добавления друга
+                                }
                             }
-                        }
-                        else
-                        {
-                            MessageBox.Show("Этот пользователь уже является вашим другом.");
+                            else
+                            {
+                                MessageBox.Show("Этот пользователь уже является вашим другом.");
+                            }
                         }
                     }
                 }
@@ -522,12 +570,13 @@ namespace CourseProject__Messenger
                 {
                     MessageBox.Show("Ошибка при поиске пользователя.");
                 }
-            }   
+            }
             catch (Exception ex)
             {
                 MessageBox.Show($"Ошибка добавления друга: {ex.Message}");
             }
         }
+
 
         public class User
         {
