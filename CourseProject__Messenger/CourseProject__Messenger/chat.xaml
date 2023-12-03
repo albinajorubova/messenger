@@ -97,7 +97,7 @@
                 </StackPanel>
 
                 <!--Groups Items-->
-                <StackPanel Margin="30,0,15,0" x:Name="BlockItems" PreviewMouseRightButtonDown="BlockItems_PreviewMouseRightButtonDown" Visibility="Visible" Height="770" VerticalAlignment="Bottom">
+                <StackPanel  Margin="30,0,15,0" x:Name="BlockItems" PreviewMouseRightButtonDown="BlockItems_PreviewMouseRightButtonDown" Visibility="Visible" Height="770" VerticalAlignment="Bottom">
                     <TextBlock Text="Chats"
                                Style="{StaticResource textTitle}"
                                Margin="25 15 0 5" />
