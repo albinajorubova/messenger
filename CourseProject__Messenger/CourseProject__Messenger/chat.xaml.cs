@@ -31,7 +31,7 @@ namespace CourseProject__Messenger
             this.DataContext = authorization.CurrentUser;
             SetTextBlockUsername(CurrentUser?.UserName);
             resultsListBox.ItemsSource = null;
-
+            LoadDialogs();
             LoadFriends(); // Вызываем метод для загрузки списка друзей с информацией о почте
         }
 
@@ -698,41 +698,48 @@ namespace CourseProject__Messenger
         }
 
 
-        private void LoadDialogs(string userEmail)
+        private void LoadDialogs()
         {
-            try
+            BlockItems.Children.Clear(); // Очищаем предыдущий список диалогов перед обновлением
+
+            if (CurrentUser != null)
             {
-                Usercontrols userControls = new Usercontrols(userEmail, ""); // Передаем email пользователя, для которого загружаем диалоги
-
-                List<Usercontrols.DialogInfo> dialogs = userControls.GetDialogsListWithInfo(userEmail);
-
-                // Очищаем существующие элементы в StackPanel
-                BlockItems.Children.Clear();
+                Usercontrols userControls = new Usercontrols(CurrentUser.Email, CurrentUser.UserName);
+                List<Usercontrols.DialogInfo> dialogs = userControls.GetDialogsListWithInfo(CurrentUser.Email);
 
                 foreach (var dialog in dialogs)
                 {
-                    // Создаем новый элемент uc:Item
-                    var item = new uc.Item
+                    var dialogItem = new CourseProject__Messenger.usercontrols.Item();
+                    dialogItem.Title = dialog.DialogName;
+                    dialogItem.Message = "Последнее сообщение"; // Можно использовать последнее сообщение из диалога
+                    dialogItem.Color = new SolidColorBrush(Color.FromRgb(115, 175, 255)); // Пример цвета
+
+                    BlockItems.Children.Add(dialogItem);
+
+                    // Сохраняем ID диалога в Tag элемента управления, чтобы использовать его в будущем
+                    dialogItem.Tag = dialog.DialogID;
+
+                    MenuItem deleteMenuItem = new MenuItem();
+                    deleteMenuItem.Header = "Удалить диалог";
+
+                    ContextMenu contextMenu = new ContextMenu();
+                    contextMenu.Items.Add(deleteMenuItem);
+
+                    dialogItem.ContextMenu = contextMenu;
+
+                    // Привязываем обработчик события клика по пункту "Удалить диалог"
+                    deleteMenuItem.Click += (sender, e) =>
                     {
-                        Title = dialog.DialogName,
-                        Message = "Last Message Here", // Можешь использовать последнее сообщение из диалога
-                        Color = "#73AFFF", // Цвет, если нужно
-                        MessageCount = dialog.Participants.Count // Количество участников в диалоге
-                                                                 // Другие свойства, если есть
+                        if (dialogItem.Tag != null && dialogItem.Tag is int)
+                        {
+                            int dialogIDToDelete = (int)dialogItem.Tag;
+                            DeleteDialog(dialogIDToDelete); // Вызываем метод удаления диалога
+                        }
                     };
-
-                    // Добавляем обработчик события нажатия на элемент
-                    item.MouseRightButtonDown += Item_MouseRightButtonDown;
-
-                    // Добавляем созданный элемент в StackPanel
-                    BlockItems.Children.Add(item);
                 }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Ошибка при загрузке диалогов: {ex.Message}");
-            }
         }
+
 
         public void DeleteDialog(int dialogIDToDelete)
         {
