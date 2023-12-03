@@ -8,6 +8,7 @@ using System.Windows.Media;
 using System.Linq;
 using System.Collections.Generic;
 using MySql.Data.MySqlClient;
+using static CourseProject__Messenger.usercontrols.Usercontrols;
 
 namespace CourseProject__Messenger
 {
@@ -16,7 +17,7 @@ namespace CourseProject__Messenger
     /// </summary>
     public partial class chat : Window
     {
-
+        
         public Usercontrols CurrentUser { get; set; }
 
         public string Email { get; set; }
@@ -56,8 +57,12 @@ namespace CourseProject__Messenger
                     MenuItem deleteMenuItem = new MenuItem();
                     deleteMenuItem.Header = "Удалить друга";
 
+                    MenuItem dialogMenuItem = new MenuItem();
+                    dialogMenuItem.Header = "Начать диалог";
+
                     ContextMenu contextMenu = new ContextMenu();
                     contextMenu.Items.Add(deleteMenuItem);
+                    contextMenu.Items.Add(dialogMenuItem);
 
                     friendItem.ContextMenu = contextMenu;
 
@@ -70,9 +75,107 @@ namespace CourseProject__Messenger
                             DeleteFriend(emailToDelete); // Вызываем метод удаления друга
                         }
                     };
+                    dialogMenuItem.Click += (sender, e) =>
+                    {
+                        if (friendItem.Tag != null && friendItem.Tag is string)
+                        {
+                            string emailToStartDialog = friendItem.Tag as string;
+                            StartDialog(emailToStartDialog); // Вызываем метод начала диалога
+                        }
+                    };
                 }
             }
         }
+        private void StartDialog(string friendEmail)
+        {
+            try
+            {
+                int currentUserId = GetUserIDByEmail(CurrentUser.Email);
+                int friendUserId = GetUserIDByEmail(friendEmail);
+
+                if (currentUserId != -1 && friendUserId != -1)
+                {
+                    string connectionString = "Server=127.0.0.1;Port=3306;Database=messenger;Uid=root;";
+                    using (MySqlConnection connection = new MySqlConnection(connectionString))
+                    {
+                        connection.Open();
+
+                        // Получаем имя друга по его email
+                        string getFriendNameQuery = "SELECT Name FROM Users WHERE Email = @FriendEmail";
+                        MySqlCommand getFriendNameCommand = new MySqlCommand(getFriendNameQuery, connection);
+                        getFriendNameCommand.Parameters.AddWithValue("@FriendEmail", friendEmail);
+                        string friendName = getFriendNameCommand.ExecuteScalar()?.ToString();
+
+                        if (friendName != null)
+                        {
+                            // Проверяем, существует ли уже диалог между этими пользователями
+                            string checkDialogQuery = "SELECT DialogID FROM DialogParticipants WHERE (UserID = @UserID1 OR UserID = @UserID2) GROUP BY DialogID HAVING COUNT(DISTINCT UserID) = 2";
+                            MySqlCommand checkDialogCommand = new MySqlCommand(checkDialogQuery, connection);
+                            checkDialogCommand.Parameters.AddWithValue("@UserID1", currentUserId);
+                            checkDialogCommand.Parameters.AddWithValue("@UserID2", friendUserId);
+
+                            object existingDialogId = checkDialogCommand.ExecuteScalar();
+
+                            if (existingDialogId == null)
+                            {
+                                // Если диалога еще нет, создаем новую запись в таблице Dialogs
+                                string createDialogQuery = "INSERT INTO Dialogs (Name) VALUES (@Name)";
+                                MySqlCommand createDialogCommand = new MySqlCommand(createDialogQuery, connection);
+                                createDialogCommand.Parameters.AddWithValue("@Name", friendName);
+                                int rowsAffected = createDialogCommand.ExecuteNonQuery();
+
+                                if (rowsAffected > 0)
+                                {
+                                    // Получаем ID созданного диалога
+                                    int dialogId = (int)createDialogCommand.LastInsertedId;
+
+                                    // Добавляем записи о участниках диалога в таблицу DialogParticipants
+                                    string addParticipantsQuery = "INSERT INTO DialogParticipants (DialogID, UserID) VALUES (@DialogID, @UserID1), (@DialogID, @UserID2)";
+                                    MySqlCommand addParticipantsCommand = new MySqlCommand(addParticipantsQuery, connection);
+                                    addParticipantsCommand.Parameters.AddWithValue("@DialogID", dialogId);
+                                    addParticipantsCommand.Parameters.AddWithValue("@UserID1", currentUserId);
+                                    addParticipantsCommand.Parameters.AddWithValue("@UserID2", friendUserId);
+
+                                    int participantsAffected = addParticipantsCommand.ExecuteNonQuery();
+
+                                    if (participantsAffected > 0)
+                                    {
+                                        MessageBox.Show("Диалог начат.");
+                                    }
+                                    else
+                                    {
+                                        MessageBox.Show("Не удалось добавить участников диалога.");
+                                    }
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Не удалось начать диалог.");
+                                }
+                            }
+                            else
+                            {
+                                MessageBox.Show("Диалог уже существует.");
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("Не удалось получить имя друга.");
+                        }
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Ошибка при поиске пользователя.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка начала диалога: {ex.Message}");
+            }
+        }
+
+
+
 
         private void DeleteFriend(string friendEmail)
         {
@@ -594,6 +697,52 @@ namespace CourseProject__Messenger
             }
         }
 
+
+        private void LoadDialogs(string userEmail)
+        {
+            try
+            {
+                Usercontrols userControls = new Usercontrols(userEmail, ""); // Передаем email пользователя, для которого загружаем диалоги
+
+                List<Usercontrols.DialogInfo> dialogs = userControls.GetDialogsListWithInfo(userEmail);
+
+                // Очищаем существующие элементы в StackPanel
+                BlockItems.Children.Clear();
+
+                foreach (var dialog in dialogs)
+                {
+                    // Создаем новый элемент uc:Item
+                    var item = new uc.Item
+                    {
+                        Title = dialog.DialogName,
+                        Message = "Last Message Here", // Можешь использовать последнее сообщение из диалога
+                        Color = "#73AFFF", // Цвет, если нужно
+                        MessageCount = dialog.Participants.Count // Количество участников в диалоге
+                                                                 // Другие свойства, если есть
+                    };
+
+                    // Добавляем обработчик события нажатия на элемент
+                    item.MouseRightButtonDown += Item_MouseRightButtonDown;
+
+                    // Добавляем созданный элемент в StackPanel
+                    BlockItems.Children.Add(item);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при загрузке диалогов: {ex.Message}");
+            }
+        }
+
+        public void DeleteDialog(int dialogIDToDelete)
+        {
+
+        }
+
+        public void OpenDialog(int dialogIDToOpen)
+        {
+
+        }
 
     }
 
