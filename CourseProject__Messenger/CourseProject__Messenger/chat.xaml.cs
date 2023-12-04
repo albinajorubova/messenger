@@ -141,6 +141,7 @@ namespace CourseProject__Messenger
                                     if (participantsAffected > 0)
                                     {
                                         MessageBox.Show("Диалог начат.");
+                                        LoadDialogs();
                                     }
                                     else
                                     {
@@ -698,47 +699,47 @@ namespace CourseProject__Messenger
         }
 
 
-        private void LoadDialogs()
-        {
-            BlockItems.Children.Clear(); // Очищаем предыдущий список диалогов перед обновлением
-
-            if (CurrentUser != null)
+            private void LoadDialogs()
             {
-                Usercontrols userControls = new Usercontrols(CurrentUser.Email, CurrentUser.UserName);
-                List<Usercontrols.DialogInfo> dialogs = userControls.GetDialogsListWithInfo(CurrentUser.Email);
+                BlockItems.Children.Clear(); // Очищаем предыдущий список диалогов перед обновлением
 
-                foreach (var dialog in dialogs)
+                if (CurrentUser != null)
                 {
-                    var dialogItem = new CourseProject__Messenger.usercontrols.Item();
-                    dialogItem.Title = dialog.DialogName;
-                    dialogItem.Message = "Последнее сообщение"; // Можно использовать последнее сообщение из диалога
-                    dialogItem.Color = new SolidColorBrush(Color.FromRgb(115, 175, 255)); // Пример цвета
+                    Usercontrols userControls = new Usercontrols(CurrentUser.Email, CurrentUser.UserName);
+                    List<Usercontrols.DialogInfo> dialogs = userControls.GetDialogsListWithInfo(CurrentUser.Email);
 
-                    BlockItems.Children.Add(dialogItem);
-
-                    // Сохраняем ID диалога в Tag элемента управления, чтобы использовать его в будущем
-                    dialogItem.Tag = dialog.DialogID;
-
-                    MenuItem deleteMenuItem = new MenuItem();
-                    deleteMenuItem.Header = "Удалить диалог";
-
-                    ContextMenu contextMenu = new ContextMenu();
-                    contextMenu.Items.Add(deleteMenuItem);
-
-                    dialogItem.ContextMenu = contextMenu;
-
-                    // Привязываем обработчик события клика по пункту "Удалить диалог"
-                    deleteMenuItem.Click += (sender, e) =>
+                    foreach (var dialog in dialogs)
                     {
-                        if (dialogItem.Tag != null && dialogItem.Tag is int)
+                        var dialogItem = new CourseProject__Messenger.usercontrols.Item();
+                        dialogItem.Title = dialog.DialogName;
+                        dialogItem.Message = "Последнее сообщение"; // Можно использовать последнее сообщение из диалога
+                        dialogItem.Color = new SolidColorBrush(Color.FromRgb(115, 175, 255)); // Пример цвета
+
+                        BlockItems.Children.Add(dialogItem);
+
+                        // Сохраняем ID диалога в Tag элемента управления, чтобы использовать его в будущем
+                        dialogItem.Tag = dialog.DialogID;
+
+                        MenuItem deleteMenuItem = new MenuItem();
+                        deleteMenuItem.Header = "Удалить диалог";
+
+                        ContextMenu contextMenu = new ContextMenu();
+                        contextMenu.Items.Add(deleteMenuItem);
+
+                        dialogItem.ContextMenu = contextMenu;
+
+                        // Привязываем обработчик события клика по пункту "Удалить диалог"
+                        deleteMenuItem.Click += (sender, e) =>
                         {
-                            int dialogIDToDelete = (int)dialogItem.Tag;
-                            DeleteDialog(dialogIDToDelete); // Вызываем метод удаления диалога
-                        }
-                    };
+                            if (dialogItem.Tag != null && dialogItem.Tag is int)
+                            {
+                                int dialogIDToDelete = (int)dialogItem.Tag;
+                                DeleteDialog(dialogIDToDelete); // Вызываем метод удаления диалога
+                            }
+                        };
+                    }
                 }
             }
-        }
 
 
         public void DeleteDialog(int dialogIDToDelete)
