@@ -103,7 +103,7 @@
                                Margin="25 15 0 5" />
 
                     <!--Person Items-->
-                    <uc:Item Title="Cole Strickland"                           
+                    <!--<uc:Item Title="Cole Strickland"                           
                              Message="Okay, Nice work"
                              Color="#73AFFF"
                              MessageCount="2" MouseRightButtonDown="Item_MouseRightButtonDown"
@@ -132,7 +132,7 @@
                              Color="#5AC795"
                              TagName="LD"
                              MessageCount="3" 
-                             ContextMenu="{StaticResource ContextMenuDelete}"/>
+                             ContextMenu="{StaticResource ContextMenuDelete}"/>-->
                 </StackPanel>
                 <StackPanel Margin="30,0,15,0" x:Name="friendsListControl" PreviewMouseRightButtonDown="BlockItems_PreviewMouseRightButtonDown" Visibility="Collapsed" Height="770" VerticalAlignment="Bottom">
                     <TextBlock Text="Friends"
@@ -213,13 +213,13 @@
 
                     </Grid.Effect>
 
-                    <TextBlock Text="moonlab std" FontSize="16" Margin="20 15" HorizontalAlignment="Left"/>
+                    <TextBlock x:Name="DialogNameTextBlock" Text="moonlab std" FontSize="16" Margin="20 15" HorizontalAlignment="Left"/>
 
-                    <StackPanel Orientation="Horizontal"  Margin=" 0 0 10 0" HorizontalAlignment="Right">
+                    <!--<StackPanel Orientation="Horizontal"  Margin=" 0 0 10 0" HorizontalAlignment="Right">
 
 
 
-                        <!--вот сюда нужно фото-->
+                        --><!--вот сюда нужно фото--><!--
 
                         <uc:UserImage Image="pack://application:,,,/CourseProject__Messenger;component/img/review1.jpg" />
                         <uc:UserImage Margin="-10 0 0 0" Image="pack://application:,,,/CourseProject__Messenger;component/img/review2.jpg"/>
@@ -232,11 +232,11 @@
                         <Button Style="{StaticResource textboxButton}">
                             <icon:PackIconMaterial  Kind="DotsVertical" Width="14" Height="14" Foreground="#888"/>
                         </Button>
-                    </StackPanel>
+                    </StackPanel>-->
                 </Grid>
                 <!--сам чат-->
-                <StackPanel Grid.Row="1" Margin="20 10 20 20">
-                    <uc:Chat_Separator Title="Yesterday"/>
+                <StackPanel x:Name="ChatItems" Grid.Row="1" Margin="20 10 20 20">
+                    <!--<uc:Chat_Separator Title="Yesterday"/>
                     <uc:UserChat Username="Maud Carson" Image="pack://application:,,,/CourseProject__Messenger;component/img/review1.jpg"/>
                     <uc:MessageChat Color="#ff82a3" Message="Hello"/>
                     <TextBlock Text="3:10 PM" Style="{StaticResource timeText}"></TextBlock>
@@ -248,7 +248,7 @@
                     <TextBlock Text="5:15 PM" Style="{StaticResource timeText}"/>
                     <uc:Chat_Separator Title="Today" Margin="0 5 0 0"/>
                     <uc:MyMessageChat Message="Guys we have a plan to choose best way"/>
-                    <TextBlock Text="4:15 AM" Style="{StaticResource timeTextRight}"/>
+                    <TextBlock Text="4:15 AM" Style="{StaticResource timeTextRight}"/>-->
                 </StackPanel>
                 <!--Нижняя секция-->
                 <Grid Grid.Row="2" Margin="10 0">
@@ -259,7 +259,7 @@
                     <!--Сообщения-->
                     <Grid>
                         <TextBlock Margin="15,0,120,0" VerticalAlignment="Center" Foreground="#868686" Panel.ZIndex="1" IsHitTestVisible="False" Text="Type your message..." Visibility="{Binding ElementName=txtMessage,Path=Text.IsEmpty,  Converter={StaticResource BooleanToVisibilityConverter}}" Height="24"  />
-                        <TextBox x:Name="txtMessage" Style="{StaticResource messageTextbox}" Height="40" VerticalAlignment="Center"/>
+                        <TextBox x:Name="txtMessage" Style="{StaticResource messageTextbox}" Height="40"/>
                         <StackPanel Orientation="Horizontal" Margin="0 0 8 0" HorizontalAlignment="Right" VerticalAlignment="Center">
                             <Button Style="{StaticResource textboxButton}" Margin="0 0 1 0">
                                 <icon:PackIconMaterial Kind="BookmarkMultipleOutline" Width="12" Foreground="#a6a6a6"/>
@@ -270,8 +270,8 @@
 
                         </StackPanel>
                     </Grid>
-                    <Button Grid.Column="1" Margin="5 0 0 0" Style="{StaticResource textboxButton}">
-                        <icon:PackIconMaterial Kind="Send" Margin="3 0 0 2" Width="16" Foreground="#6f59d4">
+                    <Button x:Name="sendBtn" Grid.Column="1" Margin="5 0 0 0" Style="{StaticResource textboxButton}" Click="Button_Click">
+                        <icon:PackIconMaterial Kind="Send" Margin="3 0 0 2" Width="16" Foreground="#6f59d4" RenderTransformOrigin="0.707,0.707">
                             <icon:PackIconMaterial.LayoutTransform>
                                 <RotateTransform Angle="-45"/>
                             </icon:PackIconMaterial.LayoutTransform>

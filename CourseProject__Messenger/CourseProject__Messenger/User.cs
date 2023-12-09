@@ -4,15 +4,24 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using MySql.Data.MySqlClient;
 
 namespace CourseProject__Messenger.usercontrols
 {
+   
     public class Usercontrols
     {
         public string Email { get; set; }
         public string UserName { get; set; }
         public string UserID { get; set; }
+        public class UserInfo
+        {
+            public int UserID { get; set; }
+            public string UserName { get; set; }
+            public string Email { get; set; }
+            // Другие свойства пользователя
+        }
         public Usercontrols(string email, string userName)
         {
             Email = email;
@@ -32,6 +41,57 @@ namespace CourseProject__Messenger.usercontrols
             public string Name { get; set; }
             public string Initials { get; set; }
             public string Email { get; set; }
+        }
+
+        public class Message
+        {
+            public int MessageID { get; set; }
+            public int DialogID { get; set; }
+            public int SenderID { get; set; }
+            public string Content { get; set; }
+            public DateTime Timestamp { get; set; }
+            // Другие свойства сообщения
+        }
+
+        public Message GetLastMessageForDialog(int dialogID)
+        {
+            Message lastMessage = null;
+
+            try
+            {
+                string connectionString = "Server=127.0.0.1;Port=3306;Database=messenger;Uid=root;";
+                string query = "SELECT * FROM Messages WHERE DialogID = @DialogID ORDER BY Timestamp DESC LIMIT 1";
+
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
+                    MySqlCommand command = new MySqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@DialogID", dialogID);
+
+                    connection.Open();
+
+                    using (MySqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            lastMessage = new Message
+                            {
+                                MessageID = Convert.ToInt32(reader["MessageID"]),
+                                DialogID = Convert.ToInt32(reader["DialogID"]),
+                                SenderID = Convert.ToInt32(reader["SenderID"]),
+                                Content = reader["Content"].ToString(),
+                                Timestamp = Convert.ToDateTime(reader["Timestamp"])
+                                // ... other properties ...
+                            };
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error getting last message for dialog: {ex.Message}");
+            }
+
+            return lastMessage;
         }
         private List<string> SearchUsersByEmail(string searchQuery)
         {
@@ -60,7 +120,7 @@ namespace CourseProject__Messenger.usercontrols
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Ошибка поиска пользователей: {ex.Message}");
+                MessageBox.Show($"Ошибка поиска пользователей: {ex.Message}");
             }
 
             return searchResults;
@@ -104,7 +164,7 @@ namespace CourseProject__Messenger.usercontrols
             }
             catch (Exception ex)
             {
-                // Обработка ошибок, если таковые возникнут
+                MessageBox.Show("Ошибка получения Id");
             }
 
             return UserID;
@@ -155,13 +215,13 @@ namespace CourseProject__Messenger.usercontrols
                     }
                     else
                     {
-                        Console.WriteLine($"Пользователь с почтой {email} не найден.");
+                        MessageBox.Show($"Пользователь с почтой {email} не найден.");
                     }
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Ошибка: {ex.Message}");
+                MessageBox.Show($"Ошибка: {ex.Message}");
             }
 
             return friendsList;
@@ -211,17 +271,61 @@ namespace CourseProject__Messenger.usercontrols
                     }
                     else
                     {
-                        Console.WriteLine($"Пользователь с почтой {email} не найден.");
+                        MessageBox.Show($"Пользователь с почтой {email} не найден.");
                     }
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Ошибка: {ex.Message}");
+                MessageBox.Show($"Ошибка: {ex.Message}");
             }
 
             return dialogsList;
         }
+
+        public List<Message> GetMessageListForDialog(int dialogID)
+        {
+            List<Message> messages = new List<Message>();
+
+            try
+            {
+                string connectionString = "Server=127.0.0.1;Port=3306;Database=messenger;Uid=root;";
+                string query = "SELECT * FROM Messages WHERE DialogID = @DialogID ORDER BY Timestamp ASC";
+
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
+                    MySqlCommand command = new MySqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@DialogID", dialogID);
+
+                    connection.Open();
+                    using (MySqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            Message message = new Message
+                            {
+                                MessageID = Convert.ToInt32(reader["MessageID"]),
+                                DialogID = Convert.ToInt32(reader["DialogID"]),
+                                SenderID = Convert.ToInt32(reader["SenderID"]),
+                                Content = reader["Content"].ToString(),
+                                Timestamp = Convert.ToDateTime(reader["Timestamp"])
+                            };
+                      
+
+                            messages.Add(message);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Обработка ошибок при получении сообщений из базы данных
+                MessageBox.Show("Ошибка при получении сообщений для диалога: " + ex.Message);
+            }
+
+            return messages;
+        }
+
 
         public List<FriendInfo> GetDialogParticipants(int dialogID)
         {
@@ -261,7 +365,7 @@ namespace CourseProject__Messenger.usercontrols
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Ошибка: {ex.Message}");
+                MessageBox.Show($"Ошибка: {ex.Message}");
             }
 
             return participants;
